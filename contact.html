@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Get in touch with The Jersey Database - questions, corrections, or ideas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8B84B' stroke-width='2'%3E%3Cpath d='M4 5l4-2 4 2 4-2 4 2v3l-3 1v11H7V9L4 8z'/%3E%3C/svg%3E">
+<title>Contact - The Jersey Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1F17; --surface:#12271D; --surface-2:#1B3A2A; --line:#264536;
+    --text:#F2F6EF; --text-dim:#8FAA98; --text-dim2:#5E7B69; --accent:#E8B84B;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+  a{color:inherit;}
+  .wrap{max-width:720px;margin:0 auto;padding:0 20px 80px;}
+
+  .hero{position:relative;padding:56px 20px 32px;overflow:hidden;border-bottom:1px solid var(--line);margin-bottom:36px;}
+  .back-to-hub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--text-dim);text-decoration:none;display:inline-block;margin-bottom:20px;}
+  .back-to-hub:hover{color:var(--accent);}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin:0 0 12px;}
+  .hero h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,6vw,46px);letter-spacing:.01em;text-transform:uppercase;line-height:1.05;margin:0 0 12px;}
+  .hero p.sub{font-family:'Inter',sans-serif;font-size:14.5px;color:var(--text-dim);max-width:520px;line-height:1.6;margin:0;}
+
+  .content h2{font-family:'Anton',sans-serif;font-weight:400;font-size:19px;text-transform:uppercase;letter-spacing:.01em;color:var(--text);margin:32px 0 12px;}
+  .content h2:first-child{margin-top:0;}
+  .content p{font-size:14.5px;line-height:1.7;color:var(--text-dim);margin:0 0 14px;}
+  .content ul{margin:0 0 14px;padding-left:20px;}
+  .content li{font-size:14.5px;line-height:1.8;color:var(--text-dim);margin-bottom:4px;}
+  .content a.source-link{color:var(--accent);text-decoration:none;}
+  .content a.source-link:hover{text-decoration:underline;}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--surface);border:1px solid var(--line);color:var(--text);
+    font-family:'Inter',sans-serif;font-size:14px;font-weight:500;
+    padding:12px 20px;border-radius:8px;text-decoration:none;margin-top:8px;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--accent);}
+
+  .update-entry{border-bottom:1px solid var(--line);padding:18px 0;}
+  .update-entry:first-child{padding-top:0;}
+  .update-date{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--accent);text-transform:uppercase;margin:0 0 6px;}
+  .update-text{font-size:14.5px;line-height:1.6;color:var(--text);margin:0;}
+
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);text-align:center;}
+  footer p{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim2);line-height:1.7;}
+  footer a{color:var(--accent);text-decoration:none;}
+  .page-nav{display:flex;gap:16px;justify-content:center;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+  .page-nav a{color:var(--text-dim);text-decoration:none;}
+  .page-nav a:hover{color:var(--accent);}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <a href="https://thejerseydatabase.com" class="back-to-hub">&larr; All Sports</a>
+    <p class="eyebrow">The Jersey Database</p>
+    <h1>Contact</h1>
+    <p class="sub">Spotted a wrong jersey, a wrong score, or have data to contribute? Want to suggest a competition to track? Get in touch.</p>
+  </header>
+
+  <section class="content">
+    <p>The quickest way to reach me is email:</p>
+    <a class="btn" href="mailto:youremail@example.com">
+      <span>&#9993;</span> youremail@example.com
+    </a>
+    <p style="margin-top:28px;">When reporting an error, it helps to include which tracker (International Football, EPL, NRL), the two teams involved, and the date of the match if you have it.</p>
+  </section>
+
+  <footer>
+    <div class="page-nav">
+      <a href="https://thejerseydatabase.com">All Sports</a>
+      <a href="sources.html">Sources</a>
+      <a href="updates.html">Updates</a>
+    </div>
+    <p>A fan-built project. Not affiliated with any league, club, federation, or governing body.</p>
+  </footer>
+</div>
+</body>
+</html>
