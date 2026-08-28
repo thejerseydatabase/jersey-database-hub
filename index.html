@@ -108,6 +108,9 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim2);line-height:1.7;
   }
   footer a{color:var(--accent);text-decoration:none;}
+  .page-nav{display:flex;gap:16px;justify-content:center;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+  .page-nav a{color:var(--text-dim);text-decoration:none;}
+  .page-nav a:hover{color:var(--accent);}
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 </style>
@@ -159,9 +162,13 @@
   </section>
 
   <footer>
+    <div class="page-nav">
+      <a href="contact.html">Contact</a>
+      <a href="sources.html">Sources</a>
+      <a href="updates.html">Updates</a>
+    </div>
     <p>
-      A fan-built project. Not affiliated with any league, club, federation, or governing body.<br>
-      <a href="https://thejerseydatabase.com/contact/">Questions, corrections, or ideas? Get in touch &rarr;</a>
+      A fan-built project. Not affiliated with any league, club, federation, or governing body.
     </p>
   </footer>
 </div>
