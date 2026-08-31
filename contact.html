@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>document.documentElement.setAttribute("data-theme", localStorage.getItem("jerseydb-theme") || "dark");</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Get in touch with The Jersey Database - questions, corrections, or ideas.">
@@ -12,6 +13,17 @@
   :root{
     --bg:#0B1F17; --surface:#12271D; --surface-2:#1B3A2A; --line:#264536;
     --text:#F2F6EF; --text-dim:#8FAA98; --text-dim2:#5E7B69; --accent:#E8B84B;
+  }
+
+  :root[data-theme="light"]{
+    --bg:#F4F1E9;
+    --surface:#FFFFFF;
+    --surface-2:#ECE6D8;
+    --line:#D9D0BC;
+    --text:#1C2B21;
+    --text-dim:#5C6F60;
+    --text-dim2:#8B9A8E;
+    --accent:#A67C00;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -54,12 +66,22 @@
   .page-nav a{color:var(--text-dim);text-decoration:none;}
   .page-nav a:hover{color:var(--accent);}
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .theme-toggle{
+    position:absolute;top:16px;right:20px;z-index:5;
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    color:var(--text-dim);width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;padding:0;
+  }
+  .theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
 </style>
 
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode"><i class="ti ti-moon"></i></button>
     <a href="https://thejerseydatabase.com" class="back-to-hub">&larr; All Sports</a>
     <p class="eyebrow">The Jersey Database</p>
     <h1>Contact</h1>
@@ -83,5 +105,22 @@
     <p>A fan-built project. Not affiliated with any league, club, federation, or governing body.</p>
   </footer>
 </div>
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  function applyIcon(theme){
+    btn.innerHTML = theme === 'light' ? '<i class="ti ti-sun"></i>' : '<i class="ti ti-moon"></i>';
+  }
+  applyIcon(document.documentElement.getAttribute('data-theme') || 'dark');
+  btn.addEventListener('click', function(){
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('jerseydb-theme', next);
+    applyIcon(next);
+  });
+})();
+</script>
 </body>
 </html>
