@@ -4,7 +4,7 @@
 <script>document.documentElement.setAttribute("data-theme", localStorage.getItem("jerseydb-theme") || "dark");</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="The Jersey Database - tracking who wore what, when, across every sport. Starting with international football.">
+<meta name="description" content="The Jersey Database - tracking who wore what, when, across NRL, NRLW, international football, EPL, A-League, NBA, NBL, NFL, and NHL.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8B84B' stroke-width='2'%3E%3Cpath d='M4 5l4-2 4 2 4-2 4 2v3l-3 1v11H7V9L4 8z'/%3E%3C/svg%3E">
 <title>The Jersey Database</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,35 +76,35 @@
     max-width:480px;margin:0 auto;line-height:1.6;
   }
 
-  .sports{margin-top:12px;}
+  .sports{
+    margin-top:12px;
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));
+    gap:12px;
+  }
   .sport-card{
-    display:flex;align-items:center;gap:20px;
-    background:var(--surface);border:1px solid var(--line);border-radius:16px;
-    padding:24px;text-decoration:none;color:var(--text);
+    display:flex;flex-direction:column;align-items:flex-start;gap:12px;
+    background:var(--surface);border:1px solid var(--line);border-radius:14px;
+    padding:18px;text-decoration:none;color:var(--text);
     transition:border-color .15s ease, transform .15s ease;
-    margin-bottom:16px;
   }
   .sport-card:hover{border-color:var(--accent);transform:translateY(-2px);}
   .sport-icon{
-    width:64px;height:64px;flex-shrink:0;border-radius:12px;
+    width:38px;height:38px;flex-shrink:0;border-radius:10px;
     background:var(--surface-2);display:flex;align-items:center;justify-content:center;
-    font-size:28px;color:var(--accent);
+    font-size:18px;color:var(--accent);
   }
-  .sport-info{flex:1;min-width:0;}
   .sport-info h2{
-    font-family:'Anton',sans-serif;font-weight:400;font-size:22px;
-    text-transform:uppercase;letter-spacing:.01em;margin:0 0 4px;
+    font-family:'Anton',sans-serif;font-weight:400;font-size:16px;
+    text-transform:uppercase;letter-spacing:.01em;margin:0 0 4px;line-height:1.15;
   }
-  .sport-info p{font-size:13.5px;color:var(--text-dim);margin:0;}
-  .sport-meta{
+  .sport-years{
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim2);
-    text-transform:uppercase;letter-spacing:.05em;margin-top:6px;
+    text-transform:uppercase;letter-spacing:.04em;
   }
-  .sport-arrow{font-size:22px;color:var(--text-dim2);flex-shrink:0;}
-  .sport-card:hover .sport-arrow{color:var(--accent);}
 
   .coming-soon{
-    text-align:center;margin-top:32px;padding:24px;
+    text-align:center;margin-top:16px;padding:20px;
     border:1px dashed var(--line);border-radius:16px;
   }
   .coming-soon p{
@@ -152,35 +152,77 @@
       <div class="sport-icon"><i class="ti ti-ball-american-football"></i></div>
       <div class="sport-info">
         <h2>NRL</h2>
-        <p>Every club, every jersey, every era.</p>
-        <p class="sport-meta">1998&ndash;present &middot; live &amp; growing</p>
+        <p class="sport-years">1998&ndash;present</p>
       </div>
-      <div class="sport-arrow">&rarr;</div>
+    </a>
+
+    <a class="sport-card" href="https://nrlw.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-ball-american-football"></i></div>
+      <div class="sport-info">
+        <h2>NRLW</h2>
+        <p class="sport-years">2018&ndash;present</p>
+      </div>
     </a>
 
     <a class="sport-card" href="https://football.thejerseydatabase.com">
       <div class="sport-icon"><i class="ti ti-ball-football"></i></div>
       <div class="sport-info">
-        <h2>International Football</h2>
-        <p>Every national team, every jersey, every scoreline.</p>
-        <p class="sport-meta">222 nations tracked &middot; 2026 season &middot; live &amp; growing</p>
+        <h2>Int&rsquo;l Football</h2>
+        <p class="sport-years">2026&ndash;present</p>
       </div>
-      <div class="sport-arrow">&rarr;</div>
     </a>
 
     <a class="sport-card" href="https://epl.thejerseydatabase.com">
       <div class="sport-icon"><i class="ti ti-ball-football"></i></div>
       <div class="sport-info">
         <h2>Premier League</h2>
-        <p>Every club, every jersey, every scoreline.</p>
-        <p class="sport-meta">20 clubs tracked &middot; 2026/27 season &middot; live &amp; growing</p>
+        <p class="sport-years">2026/27</p>
       </div>
-      <div class="sport-arrow">&rarr;</div>
+    </a>
+
+    <a class="sport-card" href="https://aleague.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-ball-football"></i></div>
+      <div class="sport-info">
+        <h2>A-League</h2>
+        <p class="sport-years">2026/27</p>
+      </div>
+    </a>
+
+    <a class="sport-card" href="https://nba.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-ball-basketball"></i></div>
+      <div class="sport-info">
+        <h2>NBA</h2>
+        <p class="sport-years">2026/27</p>
+      </div>
+    </a>
+
+    <a class="sport-card" href="https://nbl.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-ball-basketball"></i></div>
+      <div class="sport-info">
+        <h2>NBL</h2>
+        <p class="sport-years">2026/27</p>
+      </div>
+    </a>
+
+    <a class="sport-card" href="https://nfl.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-ball-american-football"></i></div>
+      <div class="sport-info">
+        <h2>NFL</h2>
+        <p class="sport-years">2026</p>
+      </div>
+    </a>
+
+    <a class="sport-card" href="https://nhl.thejerseydatabase.com">
+      <div class="sport-icon"><i class="ti ti-shirt-sport"></i></div>
+      <div class="sport-info">
+        <h2>NHL</h2>
+        <p class="sport-years">2025/26&ndash;2026/27</p>
+      </div>
     </a>
   </section>
 
   <section class="coming-soon">
-    <p>More sports in progress.<br><span class="sports-list">A-League &middot; BBL</span><br>Each one launches here as soon as its database is ready.</p>
+    <p>More sports in progress.<br><span class="sports-list">Super League</span><br>Each one launches here as soon as its database is ready.</p>
   </section>
 
   <footer>
