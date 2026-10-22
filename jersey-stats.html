@@ -397,7 +397,7 @@ var SPORTS = [
     }
   },
   {
-    id:'aleague', label:'A-League', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'aleague', label:'A-League', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9jkZOVzEqfvMDJI9YzrIGaCf8LVgdY61tvyqWTDn23t_q3UjJHx33psSSX5TrtkQJAMpYRtZexbau/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -475,7 +475,12 @@ function populateFilters(){
   });
   teams.sort();
   fTeam.innerHTML = '<option value="">All teams</option>' + teams.map(function(t){ return '<option value="' + t.replace(/"/g,'&quot;') + '">' + t + '</option>'; }).join('');
-  ABBREV_MAP = buildAbbrevMap(teams);
+  var gameCounts = {};
+  MATCHES.forEach(function(m){
+    if(m.home) gameCounts[m.home] = (gameCounts[m.home] || 0) + 1;
+    if(m.away) gameCounts[m.away] = (gameCounts[m.away] || 0) + 1;
+  });
+  ABBREV_MAP = buildAbbrevMap(teams, gameCounts);
 
   var years = [];
   MATCHES.forEach(function(m){ if(m.year !== null && m.year !== undefined && years.indexOf(m.year) === -1) years.push(m.year); });
@@ -685,9 +690,9 @@ function baseAbbrev3(name){
   var words = name.trim().split(/\s+/);
   var acc = '', wi = 0;
   while(acc.length < 3 && wi < words.length){ acc += words[wi]; wi++; }
-  return {base3: acc.slice(0, 3).toUpperCase(), words: words};
+  return {base3: acc.slice(0, 3).toUpperCase(), words: words, wordsUsed: wi};
 }
-function buildAbbrevMap(teamNames){
+function buildAbbrevMap(teamNames, gameCounts){
   var parts = {};
   teamNames.forEach(function(name){ parts[name] = baseAbbrev3(name); });
   var groups = {};
@@ -702,21 +707,38 @@ function buildAbbrevMap(teamNames){
     if(names.length === 1){ map[names[0]] = key; return; }
     var sameWord1 = names.every(function(n){ return parts[n].words[0] === parts[names[0]].words[0]; });
     if(sameWord1){
-      // Sort shortest-named first. If word counts differ, a shorter name
-      // whose words are an exact prefix of a longer one (St George
-      // Illawarra / St George Illawarra Dragons) can never be separated
-      // from it by extending both in lockstep - it just runs out of words
-      // at the same moment the longer one gets another letter, growing
-      // needlessly. So when lengths differ, the shortest keeps the bare
-      // base and only the longer name(s) get extended.
-      var sorted = names.slice().sort(function(a,b){ return parts[a].words.length - parts[b].words.length; });
-      var allSameLength = parts[sorted[0]].words.length === parts[sorted[sorted.length - 1]].words.length;
+      var lengths = names.map(function(n){ return parts[n].words.length; });
+      var allSameLength = Math.max.apply(null, lengths) === Math.min.apply(null, lengths);
       var resolved = {}, active;
       if(allSameLength){
-        active = sorted;
+        // Equal word counts (Manchester City/United) - no name is more
+        // "the base case" than another, so extend all of them together
+        // (MANC/MANU) rather than arbitrarily picking one to stay bare.
+        active = names.slice();
       } else {
-        resolved[sorted[0]] = key;
-        active = sorted.slice(1);
+        // Word counts differ. A name with no words left over past its own
+        // base (e.g. Cronulla, whose one word already filled the base)
+        // can never be extended - it MUST keep the bare code, and
+        // whatever it collides with has to be the one that grows
+        // (Cronulla Sharks -> CRO / CROS). When every name still has a
+        // spare word (St George Dragons / St George Illawarra Dragons -
+        // a franchise's old and current full name, both with words left
+        // over), there's no forced choice, so prefer giving the bare
+        // code to whichever name actually shows up more in the data -
+        // the current/common name, not a rarely-used one.
+        var exhausted = names.filter(function(n){ return parts[n].words.length <= parts[n].wordsUsed; });
+        var bareName;
+        if(exhausted.length >= 1){
+          bareName = exhausted.slice().sort(function(a,b){ return a.localeCompare(b); })[0];
+        } else {
+          bareName = names.slice().sort(function(a,b){
+            var ca = (gameCounts && gameCounts[a]) || 0, cb = (gameCounts && gameCounts[b]) || 0;
+            if(cb !== ca) return cb - ca;
+            return parts[a].words.length - parts[b].words.length;
+          })[0];
+        }
+        resolved[bareName] = key;
+        active = names.filter(function(n){ return n !== bareName; });
       }
       // Extend only the names still colliding with each other, one word at
       // a time - freezing any name the moment its code is unique instead
@@ -877,7 +899,8 @@ function buildFactText(category, cand, rank, sport){
   var wantWin = category === 'marginWin';
   var verb = wantWin ? 'win' : 'loss', prep = wantWin ? 'vs' : 'to';
   var lead = (rank === 0 ? 'Biggest recent ' : 'Recent ') + verb;
-  return lead + ' in ' + cand.jersey + ' jersey ' + prep + ' ' + cand.opponent + cand.roundPart + ': ' + cand.margin + ' ' + unit;
+  var unitWord = cand.margin === 1 ? unit.replace(/s$/, '') : unit;
+  return lead + ' in ' + cand.jersey + ' jersey ' + prep + ' ' + cand.opponent + cand.roundPart + ': ' + cand.margin + ' ' + unitWord;
 }
 function computeJerseyFacts(sport){
   var year = latestYear(MATCHES);
