@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>document.documentElement.setAttribute("data-theme", localStorage.getItem("jerseydb-theme") || "dark");</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Jersey Stats - which jersey type wins the most, how often each is worn, broken down by team and season. A trial for NRL.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F4BA34' stroke-width='2'%3E%3Cpath d='M4 5l4-2 4 2 4-2 4 2v3l-3 1v11H7V9L4 8z'/%3E%3C/svg%3E">
+<title>Jersey Stats &mdash; The Jersey Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tabler-icons/3.46.0/tabler-icons.min.css">
+<style>
+  :root{
+    --bg:#0C0E0C; --surface:#151815; --surface-2:#242621; --line:#61675B;
+    --text:#F7F8F5; --text-dim:#A6ACA2; --text-dim2:#7D8278; --accent:#F4BA34;
+    --win:#5FB88A; --loss:#D9705C; --draw:#E8C15A;
+  }
+  :root[data-theme="light"]{
+    --bg:#FAF8F2; --surface:#FFFFFF; --surface-2:#EFEADC; --line:#858B7F;
+    --text:#1C1C16; --text-dim:#5B5A4E; --text-dim2:#7D7A6C; --accent:#8C6407;
+    --win:#2F8F57; --loss:#C1503D; --draw:#B8860B;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;}
+  a{color:inherit;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px 80px;}
+
+  .hero{position:relative;padding:56px 20px 32px;overflow:hidden;border-bottom:1px solid var(--line);margin-bottom:32px;}
+  .back-to-hub{font-family:'Inter',sans-serif;font-size:11px;letter-spacing:.05em;color:var(--text-dim);text-decoration:none;display:inline-block;margin-bottom:20px;}
+  .back-to-hub:hover{color:var(--accent);}
+  .eyebrow{font-family:'Inter',sans-serif;font-size:12px;letter-spacing:.18em;color:var(--accent);text-transform:uppercase;margin:0 0 12px;font-weight:600;}
+  .hero h1{font-family:'Anton',sans-serif;font-weight:400;font-size:clamp(30px,6vw,46px);letter-spacing:.01em;text-transform:uppercase;line-height:1.05;margin:0 0 12px;}
+  .hero p.sub{font-family:'Inter',sans-serif;font-size:14.5px;color:var(--text-dim);max-width:560px;line-height:1.6;margin:0;}
+  .trial-note{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--text-dim2);font-style:italic;}
+
+  .filters-bar{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:28px;}
+  .filters-bar select{
+    background:var(--surface);border:1px solid var(--line);color:var(--text);
+    font-family:'Inter',sans-serif;font-size:13.5px;padding:10px 12px;border-radius:8px;outline:none;width:100%;
+  }
+  .filters-bar select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(244,186,52,0.15);}
+
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;margin-bottom:24px;}
+  .panel h2{font-family:'Anton',sans-serif;font-weight:400;font-size:17px;text-transform:uppercase;letter-spacing:.01em;margin:0 0 4px;}
+  .panel .panel-sub{font-size:12.5px;color:var(--text-dim2);margin:0 0 18px;}
+
+  .legend{display:flex;gap:16px;margin-bottom:18px;flex-wrap:wrap;}
+  .legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);}
+  .legend-swatch{width:10px;height:10px;border-radius:2px;display:inline-block;}
+  .legend-swatch.win{background:var(--win);}
+  .legend-swatch.draw{background:var(--draw);}
+  .legend-swatch.loss{background:var(--loss);}
+
+  .jstat-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;}
+  .jstat-row:last-child{margin-bottom:0;}
+  .jstat-label{width:128px;flex-shrink:0;font-size:12.5px;color:var(--text-dim);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .jstat-track{flex:1;height:18px;background:var(--surface-2);border-radius:4px;position:relative;min-width:0;}
+  .jstat-fill{height:100%;display:flex;border-radius:4px;overflow:hidden;}
+  .jstat-seg{height:100%;}
+  .jstat-seg + .jstat-seg{border-left:2px solid var(--surface);}
+  .jstat-seg.win{background:var(--win);}
+  .jstat-seg.draw{background:var(--draw);}
+  .jstat-seg.loss{background:var(--loss);}
+  .jstat-value{width:150px;flex-shrink:0;font-size:11.5px;color:var(--text-dim2);font-variant-numeric:tabular-nums;}
+
+  .jstat-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .jstat-table th{
+    font-family:'Inter',sans-serif;font-size:10.5px;letter-spacing:.05em;color:var(--text-dim2);
+    text-transform:uppercase;text-align:center;padding:8px 6px;border-bottom:1px solid var(--line);
+    cursor:pointer;user-select:none;white-space:nowrap;
+  }
+  .jstat-table th:hover{color:var(--accent);}
+  .jstat-table th.sorted{color:var(--accent);}
+  .jstat-table th.sorted .ti{display:inline-block;margin-left:2px;font-size:11px;}
+  .jstat-table th:first-child, .jstat-table th:nth-child(2){text-align:left;}
+  .jstat-table td{text-align:center;padding:8px 6px;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums;}
+  .jstat-table td:first-child, .jstat-table td:nth-child(2){text-align:left;}
+  .jstat-table tbody tr:nth-child(even){background:var(--surface-2);}
+  .jstat-table td.gd-pos{color:var(--win);}
+  .jstat-table td.gd-neg{color:var(--loss);}
+  .table-scroll{overflow-x:auto;}
+
+  .empty-note{text-align:center;color:var(--text-dim);padding:30px 0;font-size:13.5px;}
+  .loading-note{text-align:center;color:var(--text-dim2);padding:30px 0;font-size:13px;}
+
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--line);text-align:center;}
+  footer p{font-family:'Inter',sans-serif;font-size:11px;color:var(--text-dim2);line-height:1.7;}
+  footer a{color:var(--accent);text-decoration:none;}
+  .page-nav{display:flex;gap:16px;justify-content:center;margin-bottom:12px;font-family:'Inter',sans-serif;font-size:11px;}
+  .page-nav a{color:var(--text-dim);text-decoration:none;}
+  .page-nav a:hover{color:var(--accent);}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .theme-toggle{
+    position:absolute;top:16px;right:20px;z-index:5;
+    background:var(--surface);border:1px solid var(--line);border-radius:8px;
+    color:var(--text-dim);width:34px;height:34px;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;font-size:16px;padding:0;
+  }
+  .theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
+
+  @media (max-width:520px){
+    .jstat-label{width:92px;font-size:11.5px;}
+    .jstat-value{width:112px;font-size:10.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode"><i class="ti ti-moon"></i></button>
+    <a href="trackers.html" class="back-to-hub">&larr; Jersey Tracker</a>
+    <p class="eyebrow">The Jersey Database</p>
+    <h1>Jersey Stats</h1>
+    <p class="sub">Which jersey type actually wins the most &mdash; broken down by team and season, across every match in the tracker.</p>
+    <p class="trial-note"><i class="ti ti-flask"></i> Trial: NRL only for now. More sports coming if this is useful.</p>
+  </header>
+
+  <section class="filters-bar">
+    <select id="f-sport" aria-label="Sport"></select>
+    <select id="f-team" aria-label="Team"></select>
+    <select id="f-season" aria-label="Season"></select>
+    <select id="f-sort" aria-label="Sort by">
+      <option value="gp">Sort: most worn</option>
+      <option value="win">Sort: highest win %</option>
+      <option value="name">Sort: jersey name</option>
+    </select>
+  </section>
+
+  <div id="content">
+    <p class="loading-note">Loading match data&hellip;</p>
+  </div>
+
+  <footer>
+    <div class="page-nav">
+      <a href="contact.html">Contact</a>
+      <a href="sources.html">Sources</a>
+      <a href="updates.html">Updates</a>
+    </div>
+    <p>A fan-built project. Not affiliated with any league, club, federation, or governing body.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var btn = document.getElementById('theme-toggle');
+  if(!btn) return;
+  function applyIcon(theme){ btn.innerHTML = theme === 'light' ? '<i class="ti ti-sun"></i>' : '<i class="ti ti-moon"></i>'; }
+  applyIcon(document.documentElement.getAttribute('data-theme') || 'dark');
+  btn.addEventListener('click', function(){
+    var current = document.documentElement.getAttribute('data-theme') || 'dark';
+    var next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('jerseydb-theme', next);
+    applyIcon(next);
+  });
+})();
+
+// ---------- sports registry (trial: NRL only) ----------
+var SPORTS = [
+  { id:'nrl', label:'NRL', csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSTJF11Xst7K_RVHSq77-8tWD75hg2zxRPj21BggKCji1IEh4YS8R7DwyGfuEqHHG7slBYj6KnM_rK4/pub?gid=561620265&single=true&output=csv' }
+];
+var JERSEY_PRIORITY = ['Home','Away','Alternate','Indigenous','Heritage'];
+
+// ---------- CSV parsing (same shape as the NRL tracker's own sheet) ----------
+function parseCSV(text){
+  var rows = [], row = [], field = '', inQuotes = false;
+  for(var i = 0; i < text.length; i++){
+    var c = text[i], next = text[i+1];
+    if(inQuotes){
+      if(c === '"' && next === '"'){ field += '"'; i++; }
+      else if(c === '"'){ inQuotes = false; }
+      else { field += c; }
+    } else {
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field = ''; }
+      else if(c === '\n' || c === '\r'){
+        if(c === '\r' && next === '\n') i++;
+        row.push(field); field = '';
+        rows.push(row); row = [];
+      } else { field += c; }
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  return rows.filter(function(r){ return r.length > 1 || r[0] !== ''; });
+}
+function parseSheetDate(s){
+  if(!s) return null;
+  var d = new Date(s);
+  if(isNaN(d)) return null;
+  var mm = String(d.getMonth()+1).padStart(2,'0'), dd = String(d.getDate()).padStart(2,'0');
+  return d.getFullYear() + '-' + mm + '-' + dd;
+}
+function csvRowsToMatches(rows){
+  while(rows.length && rows[0].every(function(c){ return c === ''; })) rows.shift();
+  var data = rows.slice(1);
+  return data
+    .filter(function(r){ return r[5] && r[5] !== 'Home Team'; })
+    .map(function(r){
+      return {
+        year: r[2] ? parseInt(r[2]) : null,
+        date: parseSheetDate(r[3]),
+        home: r[5],
+        homeJersey: r[6] || null,
+        homeScore: r[8] === '' ? null : parseFloat(r[8]),
+        awayScore: r[9] === '' ? null : parseFloat(r[9]),
+        awayJersey: r[10] || null,
+        away: r[12]
+      };
+    })
+    .filter(function(m){ return m.away && m.date; });
+}
+function isPlayed(m){ return m.homeScore !== null && m.homeScore !== undefined && m.awayScore !== null && m.awayScore !== undefined; }
+function resultFor(m, side){
+  if(!isPlayed(m)) return null;
+  if(m.homeScore === m.awayScore) return 'draw';
+  var homeWon = m.homeScore > m.awayScore;
+  if(side === 'home') return homeWon ? 'win' : 'loss';
+  return homeWon ? 'loss' : 'win';
+}
+function sortJerseyNames(values){
+  return values.slice().sort(function(a,b){
+    var ia = JERSEY_PRIORITY.indexOf(a), ib = JERSEY_PRIORITY.indexOf(b);
+    if(ia !== -1 || ib !== -1) return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+    return a.localeCompare(b, undefined, {numeric:true, sensitivity:'base'});
+  });
+}
+
+// ---------- state ----------
+var MATCHES = [];
+var fSport = document.getElementById('f-sport');
+var fTeam = document.getElementById('f-team');
+var fSeason = document.getElementById('f-season');
+var fSort = document.getElementById('f-sort');
+var contentEl = document.getElementById('content');
+var tableSortCol = 'pts', tableSortDir = -1;
+
+SPORTS.forEach(function(s){
+  var opt = document.createElement('option');
+  opt.value = s.id; opt.textContent = s.label;
+  fSport.appendChild(opt);
+});
+
+function loadSport(sportId){
+  var sport = SPORTS.filter(function(s){ return s.id === sportId; })[0] || SPORTS[0];
+  contentEl.innerHTML = '<p class="loading-note">Loading match data&hellip;</p>';
+  fetch(sport.csvUrl, {cache:'no-store'})
+    .then(function(res){ if(!res.ok) throw new Error('HTTP ' + res.status); return res.text(); })
+    .then(function(text){
+      MATCHES = csvRowsToMatches(parseCSV(text));
+      populateFilters();
+      render();
+    })
+    .catch(function(err){
+      contentEl.innerHTML = '<p class="empty-note">Couldn&rsquo;t load match data (' + err.message + '). Try refreshing.</p>';
+    });
+}
+
+function populateFilters(){
+  var teams = [];
+  MATCHES.forEach(function(m){
+    if(m.home && teams.indexOf(m.home) === -1) teams.push(m.home);
+    if(m.away && teams.indexOf(m.away) === -1) teams.push(m.away);
+  });
+  teams.sort();
+  var prevTeam = fTeam.value;
+  fTeam.innerHTML = '<option value="">All teams</option>' + teams.map(function(t){ return '<option value="' + t.replace(/"/g,'&quot;') + '">' + t + '</option>'; }).join('');
+  if(teams.indexOf(prevTeam) !== -1) fTeam.value = prevTeam;
+
+  var years = [];
+  MATCHES.forEach(function(m){ if(m.year && years.indexOf(m.year) === -1) years.push(m.year); });
+  years.sort(function(a,b){ return b-a; });
+  var prevSeason = fSeason.value;
+  fSeason.innerHTML = '<option value="">All-time</option>' + years.map(function(y){ return '<option value="' + y + '">' + y + '</option>'; }).join('');
+  if(years.indexOf(parseInt(prevSeason)) !== -1) fSeason.value = prevSeason;
+}
+
+// Buckets purely by jersey type. When a team is given, only that team's own
+// side of each of their matches counts - not whatever the opponent wore.
+function computeJerseyBuckets(team, year){
+  var buckets = {};
+  function bump(jersey, result){
+    var key = jersey || 'Unknown';
+    if(!buckets[key]) buckets[key] = {jersey:key, gp:0, w:0, d:0, l:0};
+    var b = buckets[key];
+    b.gp++;
+    if(result === 'win') b.w++; else if(result === 'loss') b.l++; else b.d++;
+  }
+  MATCHES.forEach(function(m){
+    if(!isPlayed(m)) return;
+    if(year && String(m.year) !== String(year)) return;
+    if(team){
+      if(m.home === team) bump(m.homeJersey, resultFor(m, 'home'));
+      else if(m.away === team) bump(m.awayJersey, resultFor(m, 'away'));
+    } else {
+      bump(m.homeJersey, resultFor(m, 'home'));
+      bump(m.awayJersey, resultFor(m, 'away'));
+    }
+  });
+  var totalGp = 0;
+  Object.keys(buckets).forEach(function(k){ totalGp += buckets[k].gp; });
+  return Object.keys(buckets).map(function(k){
+    var b = buckets[k];
+    return Object.assign({}, b, {
+      winPct: b.gp ? (b.w / b.gp * 100) : 0,
+      sharePct: totalGp ? (b.gp / totalGp * 100) : 0
+    });
+  });
+}
+
+// Team x jersey breakdown (the "all teams" ladder), same shape as the
+// tracker's own Jersey Ladder.
+function computeLadder(year){
+  var buckets = {};
+  function bump(team, jersey, gf, ga, result){
+    var key = team + '\u0001' + (jersey || 'Unknown');
+    if(!buckets[key]) buckets[key] = {team:team, jersey: jersey || 'Unknown', gp:0,w:0,d:0,l:0,gf:0,ga:0};
+    var b = buckets[key];
+    b.gp++; b.gf += gf; b.ga += ga;
+    if(result === 'win') b.w++; else if(result === 'loss') b.l++; else b.d++;
+  }
+  MATCHES.forEach(function(m){
+    if(!isPlayed(m)) return;
+    if(year && String(m.year) !== String(year)) return;
+    bump(m.home, m.homeJersey, m.homeScore, m.awayScore, resultFor(m, 'home'));
+    bump(m.away, m.awayJersey, m.awayScore, m.homeScore, resultFor(m, 'away'));
+  });
+  return Object.keys(buckets).map(function(k){
+    var b = buckets[k], gd = b.gf - b.ga, pts = b.w * 2 + b.d;
+    return Object.assign({}, b, {gd:gd, pts:pts, winPct: b.gp ? (b.w/b.gp*100) : 0});
+  });
+}
+
+function sortBuckets(list, sortMode){
+  var copy = list.slice();
+  if(sortMode === 'win') copy.sort(function(a,b){ return b.winPct - a.winPct || b.gp - a.gp; });
+  else if(sortMode === 'name') copy = sortJerseyNames(copy.map(function(r){return r.jersey;})).map(function(name){ return copy.filter(function(r){return r.jersey===name;})[0]; });
+  else copy.sort(function(a,b){ return b.gp - a.gp; });
+  return copy;
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function chartHtml(list){
+  if(list.length === 0) return '<p class="empty-note">No results for this selection.</p>';
+  var maxGp = Math.max.apply(null, list.map(function(r){ return r.gp; }));
+  return '<div class="legend">' +
+    '<span class="legend-item"><span class="legend-swatch win"></span>Win</span>' +
+    '<span class="legend-item"><span class="legend-swatch draw"></span>Draw</span>' +
+    '<span class="legend-item"><span class="legend-swatch loss"></span>Loss</span>' +
+    '</div>' +
+    list.map(function(r){
+      var fillPct = maxGp ? (r.gp / maxGp * 100) : 0;
+      var wSeg = r.gp ? (r.w / r.gp * 100) : 0, dSeg = r.gp ? (r.d / r.gp * 100) : 0, lSeg = r.gp ? (r.l / r.gp * 100) : 0;
+      var title = r.jersey + ': ' + r.gp + ' games, ' + r.w + 'W ' + r.d + 'D ' + r.l + 'L (' + r.winPct.toFixed(1) + '% win)';
+      return '<div class="jstat-row" title="' + esc(title) + '">' +
+        '<span class="jstat-label">' + esc(r.jersey) + '</span>' +
+        '<span class="jstat-track"><span class="jstat-fill" style="width:' + fillPct.toFixed(1) + '%">' +
+          (wSeg ? '<span class="jstat-seg win" style="width:' + wSeg.toFixed(2) + '%"></span>' : '') +
+          (dSeg ? '<span class="jstat-seg draw" style="width:' + dSeg.toFixed(2) + '%"></span>' : '') +
+          (lSeg ? '<span class="jstat-seg loss" style="width:' + lSeg.toFixed(2) + '%"></span>' : '') +
+        '</span></span>' +
+        '<span class="jstat-value">' + r.gp + ' GP &middot; ' + r.winPct.toFixed(1) + '% win</span>' +
+      '</div>';
+    }).join('');
+}
+
+function winrateTableHtml(list, showShare){
+  if(list.length === 0) return '<p class="empty-note">No results for this selection.</p>';
+  var cols = [
+    {key:'jersey', label:'Jersey'},
+    {key:'gp', label:'GP'},
+    {key:'w', label:'W'},
+    {key:'d', label:'D'},
+    {key:'l', label:'L'},
+    {key:'winPct', label:'Win%'}
+  ];
+  if(showShare) cols.push({key:'sharePct', label:'Share%'});
+  var rows = list.map(function(r){
+    return '<tr>' + cols.map(function(c){
+      if(c.key === 'jersey') return '<td>' + esc(r.jersey) + '</td>';
+      if(c.key === 'winPct') return '<td>' + r.winPct.toFixed(1) + '%</td>';
+      if(c.key === 'sharePct') return '<td>' + r.sharePct.toFixed(1) + '%</td>';
+      return '<td>' + r[c.key] + '</td>';
+    }).join('') + '</tr>';
+  }).join('');
+  return '<div class="table-scroll"><table class="jstat-table"><thead><tr>' +
+    cols.map(function(c){ return '<th>' + c.label + '</th>'; }).join('') +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+
+function ladderTableHtml(list){
+  if(list.length === 0) return '<p class="empty-note">No results for this selection.</p>';
+  var sorted = list.slice().sort(function(a,b){
+    var dir = tableSortDir;
+    var av = a[tableSortCol], bv = b[tableSortCol];
+    if(typeof av === 'string') return dir * av.localeCompare(bv);
+    return dir * ((bv) - (av)) * -1;
+  });
+  var cols = [
+    {key:'team', label:'Team'}, {key:'jersey', label:'Jersey'}, {key:'gp', label:'GP'},
+    {key:'w', label:'W'}, {key:'d', label:'D'}, {key:'l', label:'L'}, {key:'winPct', label:'Win%'},
+    {key:'gf', label:'GF'}, {key:'ga', label:'GA'}, {key:'gd', label:'GD'}, {key:'pts', label:'PTS'}
+  ];
+  var rows = sorted.map(function(r){
+    var gdClass = r.gd > 0 ? 'gd-pos' : (r.gd < 0 ? 'gd-neg' : '');
+    return '<tr>' +
+      '<td>' + esc(r.team) + '</td><td>' + esc(r.jersey) + '</td>' +
+      '<td>' + r.gp + '</td><td>' + r.w + '</td><td>' + r.d + '</td><td>' + r.l + '</td>' +
+      '<td>' + r.winPct.toFixed(1) + '%</td>' +
+      '<td>' + r.gf + '</td><td>' + r.ga + '</td>' +
+      '<td class="' + gdClass + '">' + (r.gd > 0 ? '+' : '') + r.gd + '</td><td>' + r.pts + '</td>' +
+    '</tr>';
+  }).join('');
+  return '<div class="table-scroll"><table class="jstat-table" id="ladder-table"><thead><tr>' +
+    cols.map(function(c){
+      var sortedClass = c.key === tableSortCol ? ' sorted' : '';
+      var arrow = c.key === tableSortCol ? '<i class="ti ti-chevron-' + (tableSortDir === 1 ? 'up' : 'down') + '"></i>' : '';
+      return '<th class="' + sortedClass + '" data-col="' + c.key + '">' + c.label + arrow + '</th>';
+    }).join('') +
+    '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+}
+
+function render(){
+  var team = fTeam.value, year = fSeason.value, sortMode = fSort.value;
+  var buckets = sortBuckets(computeJerseyBuckets(team, year), sortMode);
+
+  var html = '';
+  html += '<section class="panel"><h2>' + (team ? esc(team) : 'All Teams') + (year ? ' — ' + year : '') + ' &mdash; Jersey Usage &amp; Win Rate</h2>' +
+    '<p class="panel-sub">Bar length is how often that jersey was worn; the fill is its win / draw / loss split.</p>' +
+    chartHtml(buckets) + '</section>';
+
+  html += '<section class="panel"><h2>Win % by Jersey Type</h2>' +
+    '<p class="panel-sub">' + (team ? 'Share% is this jersey’s portion of ' + esc(team) + '’s games in this selection.' : 'Share% is this jersey’s portion of all games league-wide in this selection.') + '</p>' +
+    winrateTableHtml(buckets, true) + '</section>';
+
+  if(!team){
+    var ladder = computeLadder(year);
+    html += '<section class="panel"><h2>Jersey Ladder by Type — All Teams</h2>' +
+      '<p class="panel-sub">Click a column to sort. Same scoring as the tracker’s own ladder (2 for a win, 1 for a draw).</p>' +
+      ladderTableHtml(ladder) + '</section>';
+  }
+
+  contentEl.innerHTML = html;
+
+  var th = document.getElementById('ladder-table');
+  if(th){
+    th.querySelectorAll('th[data-col]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var col = el.getAttribute('data-col');
+        if(tableSortCol === col) tableSortDir *= -1;
+        else { tableSortCol = col; tableSortDir = (col === 'team' || col === 'jersey') ? 1 : -1; }
+        render();
+      });
+    });
+  }
+}
+
+fSport.addEventListener('change', function(){ loadSport(fSport.value); });
+[fTeam, fSeason, fSort].forEach(function(el){ el.addEventListener('change', render); });
+
+loadSport(SPORTS[0].id);
+</script>
+</body>
+</html>
