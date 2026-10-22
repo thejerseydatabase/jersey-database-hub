@@ -289,7 +289,7 @@ function latestYear(matches){
 // shape, since the underlying sheets genuinely differ.
 var SPORTS = [
   {
-    id:'nrl', label:'NRL', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nrl', label:'NRL', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSTJF11Xst7K_RVHSq77-8tWD75hg2zxRPj21BggKCji1IEh4YS8R7DwyGfuEqHHG7slBYj6KnM_rK4/pub?gid=561620265&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -304,7 +304,7 @@ var SPORTS = [
     }
   },
   {
-    id:'nrlw', label:'NRLW', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nrlw', label:'NRLW', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vScg3YKgpb191GIF-laIg3ZboQryXkoGS9GXcivtP9k8MBMl-9f4VOoBHj_MkGSygK41Sbh5or62ON1/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -321,7 +321,7 @@ var SPORTS = [
     }
   },
   {
-    id:'nfl', label:'NFL', jerseyFacts:true, roundLabel:'Wk', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nfl', label:'NFL', jerseyFacts:true, abbrevTeams:true, roundLabel:'Wk', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJs_65UCo9iD73yuzKhQpTPQkc05BGdzhD_zCUgAbGeF2jgZ9FzSSiAcZ5gufCyHoVePlWfss2mN0G/pub?gid=1474508458&single=true&output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[10]; }).filter(function(r){ return r[1] && /^\d{1,2}$/.test(r[1]); }).map(function(r){
@@ -336,7 +336,7 @@ var SPORTS = [
     }
   },
   {
-    id:'epl', label:'Premier League', jerseyFacts:true, roundLabel:'MW', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'epl', label:'Premier League', jerseyFacts:true, abbrevTeams:true, roundLabel:'MW', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNLfZ7KInTXjT6u4SA1JdMpnsDDoz3bb_lwxFUjtIhYgEYpxsTsgJYZDckqJOp6Csd4m2izg6gjCPs/pub?output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[2]; }).map(function(r){
@@ -366,23 +366,7 @@ var SPORTS = [
     }
   },
   {
-    id:'nhl', label:'NHL', jerseyFacts:true, roundLabel:'Rd', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
-    csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHCAN9bTer1ZaV-eLWVd2o2mFe41XRyrDQuREMAT6jQeZCJLxRz6xJdU-pqsmtFJBnYNCVq0PnFSQd/pub?gid=0&single=true&output=csv',
-    parseRows:function(rows){
-      rows = skipBlankLead(rows);
-      return rows.slice(1).filter(function(r){ return r[9] && r[9] !== 'Home Team'; }).map(function(r){
-        var date = dateDmy(r[0]);
-        return {
-          date:date, year: seasonStartYear(date), round: r[1] || null,
-          away:r[2], awayJersey:r[3]||null, awayImg:r[4]||null,
-          awayScore:num(r,5), homeScore:num(r,6),
-          homeJersey:r[7]||null, homeImg:r[8]||null, home:r[9]
-        };
-      }).filter(function(m){ return m.away && m.date; });
-    }
-  },
-  {
-    id:'nbl', label:'NBL', jerseyFacts:true, roundLabel:'Rd', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nbl', label:'NBL', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ08TkUylQQxxG8ZeRcgr9xfZj6-QFTQjpuyVOQ3zk-JC7ds2voYMjHnppKIgsYKUp4V0m8aOOK06Gr/pub?gid=1341638788&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -397,7 +381,7 @@ var SPORTS = [
     }
   },
   {
-    id:'nba', label:'NBA', jerseyFacts:true, roundLabel:null, hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nba', label:'NBA', jerseyFacts:true, abbrevTeams:true, roundLabel:null, hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT0TnZLGVhNSs4OR9PWB0DJCqsjxZQN8gJZFkqvyL7vryZKmxGpGaPaWBTQjUB1e9x4eBk9Wk7Ju6YY/pub?gid=716209826&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -413,7 +397,7 @@ var SPORTS = [
     }
   },
   {
-    id:'aleague', label:'A-League', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'aleague', label:'A-League', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9jkZOVzEqfvMDJI9YzrIGaCf8LVgdY61tvyqWTDn23t_q3UjJHx33psSSX5TrtkQJAMpYRtZexbau/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -430,7 +414,7 @@ var SPORTS = [
     }
   },
   {
-    id:'superleague', label:'Super League', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'superleague', label:'Super League', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSok1HVSgQvwYqbhvpw-mJPFCoGIXJCHTcwQ4cPsHytrazTBu_bxTPcngUDivbL-yB_pjCxUmCOsGwh/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -457,6 +441,7 @@ var fSort = document.getElementById('f-sort');
 var contentEl = document.getElementById('content');
 var tableSortState = { winrate:{col:'gp', dir:-1}, ladder:{col:'pts', dir:-1} };
 var expandState = {};
+var ABBREV_MAP = {};
 
 SPORTS.forEach(function(s){
   var opt = document.createElement('option');
@@ -490,6 +475,7 @@ function populateFilters(){
   });
   teams.sort();
   fTeam.innerHTML = '<option value="">All teams</option>' + teams.map(function(t){ return '<option value="' + t.replace(/"/g,'&quot;') + '">' + t + '</option>'; }).join('');
+  ABBREV_MAP = buildAbbrevMap(teams);
 
   var years = [];
   MATCHES.forEach(function(m){ if(m.year !== null && m.year !== undefined && years.indexOf(m.year) === -1) years.push(m.year); });
@@ -687,13 +673,65 @@ function ladderCols(sport, hasDraws){
 // category contributes at most one fact, and a category is skipped
 // entirely if nothing in the data is actually notable.
 // Best-effort abbreviation since the sheets don't carry an official short
-// code: initials for a multi-word name (South East Melbourne -> SEM), first
-// three letters for a one-word name (Tasmania -> TAS).
-function abbrevTeam(name){
-  if(!name) return '';
+// code: 3 letters by default (accumulating whole words until there's at
+// least 3 characters, e.g. St George Illawarra -> STG), extended only when
+// two teams would otherwise collide - by pulling in more of word 1 when
+// their first words actually differ (Canberra/Canterbury -> CANB/CANT), or
+// by word 2's initial when word 1 is identical for both (Manchester City/
+// United -> MANC/MANU). Built once per sport from its own team list, not
+// per-team in isolation, since the whole point is avoiding collisions
+// across that specific roster.
+function baseAbbrev3(name){
   var words = name.trim().split(/\s+/);
-  if(words.length === 1) return words[0].slice(0, 3).toUpperCase();
-  return words.map(function(w){ return w.charAt(0); }).join('').toUpperCase().slice(0, 4);
+  var acc = '', wi = 0;
+  while(acc.length < 3 && wi < words.length){ acc += words[wi]; wi++; }
+  return {base3: acc.slice(0, 3).toUpperCase(), words: words};
+}
+function buildAbbrevMap(teamNames){
+  var parts = {};
+  teamNames.forEach(function(name){ parts[name] = baseAbbrev3(name); });
+  var groups = {};
+  teamNames.forEach(function(name){
+    var key = parts[name].base3;
+    if(!groups[key]) groups[key] = [];
+    groups[key].push(name);
+  });
+  var map = {};
+  Object.keys(groups).forEach(function(key){
+    var names = groups[key];
+    if(names.length === 1){ map[names[0]] = key; return; }
+    var sameWord1 = names.every(function(n){ return parts[n].words[0] === parts[names[0]].words[0]; });
+    if(sameWord1){
+      var extra = {}; names.forEach(function(n){ extra[n] = ''; });
+      var maxWords = Math.max.apply(null, names.map(function(n){ return parts[n].words.length; }));
+      for(var wordIdx = 1; wordIdx < maxWords; wordIdx++){
+        names.forEach(function(n){
+          var w = parts[n].words[wordIdx];
+          if(w) extra[n] += w.charAt(0).toUpperCase();
+        });
+        var vals = names.map(function(n){ return key + extra[n]; });
+        if(vals.every(function(v,i){ return vals.indexOf(v) === i; })) break;
+      }
+      names.forEach(function(n){ map[n] = key + extra[n]; });
+    } else {
+      var resolved = false;
+      for(var extraLen = 1; extraLen <= 10 && !resolved; extraLen++){
+        var candidates = {};
+        names.forEach(function(n){ candidates[n] = parts[n].words[0].slice(0, 3 + extraLen).toUpperCase(); });
+        var cvals = names.map(function(n){ return candidates[n]; });
+        if(cvals.every(function(v,i){ return cvals.indexOf(v) === i; })){
+          names.forEach(function(n){ map[n] = candidates[n]; });
+          resolved = true;
+        }
+      }
+      if(!resolved) names.forEach(function(n){ map[n] = key; });
+    }
+  });
+  return map;
+}
+function teamShort(name, sport){
+  if(!sport.abbrevTeams) return name;
+  return ABBREV_MAP[name] || name.slice(0, 3).toUpperCase();
 }
 function roundsOrDatesWindow(seasonMatches, n, roundLabel){
   if(roundLabel){
@@ -767,7 +805,25 @@ function factBestDiffList(seasonMatches){
   list.sort(function(a,b){ return b.pd - a.pd; });
   return list.filter(function(r){ return r.pd > 0; });
 }
-function factMarginList(windowMatches, roundLabel, wantWin){
+function factWorstDiffList(seasonMatches){
+  var buckets = {};
+  seasonMatches.forEach(function(m){
+    [[m.home, m.homeJersey, m.homeScore, m.awayScore], [m.away, m.awayJersey, m.awayScore, m.homeScore]].forEach(function(s){
+      if(!s[1] || s[1] === 'Unknown') return;
+      var key = s[0] + '\u0001' + s[1];
+      if(!buckets[key]) buckets[key] = {team:s[0], jersey:s[1], gp:0, gf:0, ga:0};
+      buckets[key].gp++; buckets[key].gf += s[2]; buckets[key].ga += s[3];
+    });
+  });
+  var list = Object.keys(buckets).map(function(k){
+    var b = buckets[k], pd = b.gf - b.ga;
+    return {team:b.team, jersey:b.jersey, pd:pd, gp:b.gp,
+      text: 'Worst point differential of any jersey this season: ' + pd + ' from ' + b.gp + ' game' + (b.gp === 1 ? '' : 's')};
+  });
+  list.sort(function(a,b){ return a.pd - b.pd; });
+  return list.filter(function(r){ return r.pd < 0; });
+}
+function factMarginList(windowMatches, roundLabel, wantWin, sport){
   var list = [];
   windowMatches.forEach(function(m){
     [[m.home, m.homeJersey, m.homeScore, m.awayScore, 'home', m.away], [m.away, m.awayJersey, m.awayScore, m.homeScore, 'away', m.home]].forEach(function(s){
@@ -780,7 +836,7 @@ function factMarginList(windowMatches, roundLabel, wantWin){
       var verb = wantWin ? 'win' : 'loss';
       var prep = wantWin ? 'vs' : 'to';
       list.push({team:s[0], jersey:s[1], margin:margin,
-        text: 'Biggest recent ' + verb + ' in ' + s[1] + ' jersey ' + prep + ' ' + abbrevTeam(s[5]) + roundPart + ': ' + margin + ' pts'});
+        text: 'Biggest recent ' + verb + ' in ' + s[1] + ' jersey ' + prep + ' ' + teamShort(s[5], sport) + roundPart + ': ' + margin + ' pts'});
     });
   });
   list.sort(function(a,b){ return b.margin - a.margin; });
@@ -794,32 +850,27 @@ function computeJerseyFacts(sport){
 
   var recentWindow = roundsOrDatesWindow(seasonMatches, 3, sport.roundLabel);
 
-  var pools = [
-    factFrequencyList(seasonMatches),
-    factBestDiffList(seasonMatches),
-    factMarginList(recentWindow, sport.roundLabel, true),
-    factMarginList(recentWindow, sport.roundLabel, false)
+  // Exactly one candidate per category, never a second pick from the same
+  // pool - pulling a 2nd-best entry from (say) the PD list used to still
+  // say "Best point differential..." even though it wasn't actually the
+  // best, which was misleading. 5 distinct categories means 5 cards in the
+  // normal case; a quiet category (or a team+jersey collision between two
+  // categories) just means fewer than 5 rather than a false claim.
+  var candidates = [
+    factFrequencyList(seasonMatches)[0],
+    factBestDiffList(seasonMatches)[0],
+    factWorstDiffList(seasonMatches)[0],
+    factMarginList(recentWindow, sport.roundLabel, true, sport)[0],
+    factMarginList(recentWindow, sport.roundLabel, false, sport)[0]
   ];
-  // Round-robin through the categories so the 5 cards stay varied rather
-  // than all coming from whichever single category has the deepest pool;
-  // a category only gets revisited for a second pick once every other
-  // category has had a turn, and a team+jersey already shown is skipped.
-  var idx = [0, 0, 0, 0];
-  var facts = [], usedKeys = {}, progressed = true;
-  while(facts.length < 5 && progressed){
-    progressed = false;
-    for(var p = 0; p < pools.length && facts.length < 5; p++){
-      while(idx[p] < pools[p].length){
-        var cand = pools[p][idx[p]++];
-        var key = cand.team + '\u0001' + cand.jersey;
-        if(usedKeys[key]) continue;
-        usedKeys[key] = true;
-        facts.push(cand);
-        progressed = true;
-        break;
-      }
-    }
-  }
+  var facts = [], usedKeys = {};
+  candidates.forEach(function(cand){
+    if(!cand) return;
+    var key = cand.team + '\u0001' + cand.jersey;
+    if(usedKeys[key]) return;
+    usedKeys[key] = true;
+    facts.push(cand);
+  });
   facts.forEach(function(fact){ fact.img = mostRecentImg(seasonMatches, fact.team, fact.jersey); });
   return {year:year, facts:facts};
 }
