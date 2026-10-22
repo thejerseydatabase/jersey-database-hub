@@ -845,7 +845,7 @@ function jerseyFactsHtml(sport){
     '</div>';
   }).join('');
   return '<section class="panel"><h2>Jersey Facts</h2>' +
-    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a few notable things about jersey usage and results this season. Unknown jerseys are excluded, and big-margin facts only look at the last 3 ' + (sport.roundLabel ? 'rounds' : 'match dates') + '. Facts are generated automatically from the match data, not hand-picked.</p>' +
+    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a few notable things about jersey usage and results this season. Unknown jerseys are excluded, and big-margin facts only look at the last 3 ' + (sport.roundLabel ? 'rounds' : 'match dates') + '. Facts are generated automatically from the match data, not hand-picked, so they may occasionally be incorrect.</p>' +
     '<div class="power-grid">' + cards + '</div></section>';
 }
 
