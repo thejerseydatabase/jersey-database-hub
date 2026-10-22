@@ -89,8 +89,7 @@
   @media (max-width:760px){ .power-grid{grid-template-columns:repeat(3,1fr);} }
   @media (max-width:520px){ .power-grid{grid-template-columns:repeat(2,1fr);} }
   .power-card{background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:14px 10px 12px;text-align:center;position:relative;}
-  .power-rank{position:absolute;top:8px;left:10px;font-family:'Anton',sans-serif;font-weight:400;font-size:14px;color:var(--accent);}
-  .power-photo{width:100%;aspect-ratio:3/4;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:18px 0 10px;border:1px solid var(--line);}
+  .power-photo{width:100%;aspect-ratio:3/4;border-radius:8px;background:var(--surface);display:flex;align-items:center;justify-content:center;overflow:hidden;margin:0 0 10px;border:1px solid var(--line);}
   .power-photo.empty{border-style:dashed;}
   .power-photo img{width:100%;height:100%;object-fit:contain;display:block;}
   .power-photo .ti{font-size:26px;color:var(--text-dim2);}
@@ -132,7 +131,7 @@
     <p class="eyebrow">The Jersey Database</p>
     <h1>Jersey Stats</h1>
     <p class="sub">Which jersey type actually wins the most &mdash; broken down by team and season, across every match in the tracker.</p>
-    <p class="trial-note"><i class="ti ti-flask"></i> The Top 5 Jerseys power-rankings panel is trialling on NRL first &mdash; everything else below works for every sport.</p>
+    <p class="trial-note"><i class="ti ti-flask"></i> Still finding its feet &mdash; let us know if a stat looks off.</p>
   </header>
 
   <section class="filters-bar">
@@ -290,13 +289,13 @@ function latestYear(matches){
 // shape, since the underlying sheets genuinely differ.
 var SPORTS = [
   {
-    id:'nrl', label:'NRL', powerRankings:true, hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nrl', label:'NRL', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSTJF11Xst7K_RVHSq77-8tWD75hg2zxRPj21BggKCji1IEh4YS8R7DwyGfuEqHHG7slBYj6KnM_rK4/pub?gid=561620265&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
       return rows.slice(1).filter(function(r){ return r[5] && r[5] !== 'Home Team'; }).map(function(r){
         return {
-          year: r[2] ? parseInt(r[2]) : null, date: dateSimple(r[3]),
+          year: r[2] ? parseInt(r[2]) : null, date: dateSimple(r[3]), round: r[4] || null,
           home:r[5], homeJersey:r[6]||null, homeImg:r[7]||null,
           homeScore:num(r,8), awayScore:num(r,9),
           awayJersey:r[10]||null, awayImg:r[11]||null, away:r[12]
@@ -305,7 +304,7 @@ var SPORTS = [
     }
   },
   {
-    id:'nrlw', label:'NRLW', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nrlw', label:'NRLW', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vScg3YKgpb191GIF-laIg3ZboQryXkoGS9GXcivtP9k8MBMl-9f4VOoBHj_MkGSygK41Sbh5or62ON1/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -313,7 +312,7 @@ var SPORTS = [
       return rows.slice(1).filter(function(r){ return r[5] && r[5] !== 'Home Team'; }).map(function(r){
         var yr = r[2] ? parseInt(r[2]) : null;
         return {
-          year:yr, date: dateCarryMonth(r[3], yr, monthState),
+          year:yr, date: dateCarryMonth(r[3], yr, monthState), round: r[4] || null,
           home:r[5], homeJersey:r[6]||null, homeImg:r[7]||null,
           homeScore:num(r,8), awayScore:num(r,9),
           away:r[10], awayJersey:r[11]||null, awayImg:r[12]||null
@@ -322,13 +321,13 @@ var SPORTS = [
     }
   },
   {
-    id:'nfl', label:'NFL', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nfl', label:'NFL', jerseyFacts:true, roundLabel:'Wk', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vRJs_65UCo9iD73yuzKhQpTPQkc05BGdzhD_zCUgAbGeF2jgZ9FzSSiAcZ5gufCyHoVePlWfss2mN0G/pub?gid=1474508458&single=true&output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[10]; }).filter(function(r){ return r[1] && /^\d{1,2}$/.test(r[1]); }).map(function(r){
         var date = dateSimple(r[2]);
         return {
-          date:date, year: seasonStartYear(date),
+          date:date, year: seasonStartYear(date), round: r[1] || null,
           away:r[3], awayJersey:r[4]||null, awayImg:r[5]||null,
           awayScore:num(r,6), homeScore:num(r,7),
           homeJersey:r[8]||null, homeImg:r[9]||null, home:r[10]
@@ -337,13 +336,13 @@ var SPORTS = [
     }
   },
   {
-    id:'epl', label:'Premier League', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'epl', label:'Premier League', jerseyFacts:true, roundLabel:'MW', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNLfZ7KInTXjT6u4SA1JdMpnsDDoz3bb_lwxFUjtIhYgEYpxsTsgJYZDckqJOp6Csd4m2izg6gjCPs/pub?output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[2]; }).map(function(r){
         var date = dateSimple(r[0]);
         return {
-          date:date, year: seasonStartYear(date),
+          date:date, year: seasonStartYear(date), round: r[11] || null,
           home:r[2], homeJersey:r[3]||null, homeImg:r[4]||null,
           homeScore:num(r,5), awayScore:num(r,6),
           awayJersey:r[7]||null, awayImg:r[8]||null, away:r[9]
@@ -352,13 +351,13 @@ var SPORTS = [
     }
   },
   {
-    id:'football', label:'International Football', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'football', label:'International Football', jerseyFacts:true, roundLabel:null, hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8XOehKxF2_Ni-BVI1_-GBrWdgb49c52d85GXzdMRywYXemcjJbaCTOFx5Z22NAUr2k5nlDDwYcgJ/pub?gid=1954908423&single=true&output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[3]; }).map(function(r){
         var date = dateSimple(r[0]);
         return {
-          date:date, year: date ? parseInt(date.slice(0,4),10) : null,
+          date:date, year: date ? parseInt(date.slice(0,4),10) : null, round: null,
           home:r[3], homeJersey:r[4]||null, homeImg:r[5]||null,
           homeScore:num(r,6), awayScore:num(r,7),
           awayJersey:r[8]||null, awayImg:r[9]||null, away:r[10]
@@ -367,14 +366,14 @@ var SPORTS = [
     }
   },
   {
-    id:'nhl', label:'NHL', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nhl', label:'NHL', jerseyFacts:true, roundLabel:'Rd', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSHCAN9bTer1ZaV-eLWVd2o2mFe41XRyrDQuREMAT6jQeZCJLxRz6xJdU-pqsmtFJBnYNCVq0PnFSQd/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
       return rows.slice(1).filter(function(r){ return r[9] && r[9] !== 'Home Team'; }).map(function(r){
         var date = dateDmy(r[0]);
         return {
-          date:date, year: seasonStartYear(date),
+          date:date, year: seasonStartYear(date), round: r[1] || null,
           away:r[2], awayJersey:r[3]||null, awayImg:r[4]||null,
           awayScore:num(r,5), homeScore:num(r,6),
           homeJersey:r[7]||null, homeImg:r[8]||null, home:r[9]
@@ -383,13 +382,13 @@ var SPORTS = [
     }
   },
   {
-    id:'nbl', label:'NBL', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nbl', label:'NBL', jerseyFacts:true, roundLabel:'Rd', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ08TkUylQQxxG8ZeRcgr9xfZj6-QFTQjpuyVOQ3zk-JC7ds2voYMjHnppKIgsYKUp4V0m8aOOK06Gr/pub?gid=1341638788&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
       return rows.slice(1).filter(function(r){ return r[5] && r[5] !== 'Home Team'; }).map(function(r){
         return {
-          year: r[2] || null, date: dateSimple(r[3]),
+          year: r[2] || null, date: dateSimple(r[3]), round: r[4] || null,
           home:r[5], homeJersey:r[6]||null, homeImg:r[7]||null,
           homeScore:num(r,8), awayScore:num(r,9),
           awayJersey:r[10]||null, awayImg:r[11]||null, away:r[12]
@@ -398,14 +397,14 @@ var SPORTS = [
     }
   },
   {
-    id:'nba', label:'NBA', hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'nba', label:'NBA', jerseyFacts:true, roundLabel:null, hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT0TnZLGVhNSs4OR9PWB0DJCqsjxZQN8gJZFkqvyL7vryZKmxGpGaPaWBTQjUB1e9x4eBk9Wk7Ju6YY/pub?gid=716209826&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
       return rows.slice(1).filter(function(r){ return r[9] && r[9] !== 'Home Team'; }).map(function(r){
         var date = dateSimple(r[0]);
         return {
-          date:date, year: seasonStartYear(date),
+          date:date, year: seasonStartYear(date), round: null,
           away:r[2], awayJersey:r[3]||null, awayImg:r[4]||null,
           awayScore:num(r,5), homeScore:num(r,6),
           homeJersey:r[7]||null, homeImg:r[8]||null, home:r[9]
@@ -414,7 +413,7 @@ var SPORTS = [
     }
   },
   {
-    id:'aleague', label:'A-League', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'aleague', label:'A-League', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9jkZOVzEqfvMDJI9YzrIGaCf8LVgdY61tvyqWTDn23t_q3UjJHx33psSSX5TrtkQJAMpYRtZexbau/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -422,7 +421,7 @@ var SPORTS = [
         .filter(function(r){ return r[2] && /^\d{4}\/\d{2}$/.test(r[2]); })
         .map(function(r){
           return {
-            year: r[2] || null, date: dateDmy(r[3]),
+            year: r[2] || null, date: dateDmy(r[3]), round: r[4] || null,
             home:r[5], homeJersey:r[6]||null, homeImg:r[7]||null,
             homeScore:num(r,8), awayScore:num(r,9),
             awayJersey:r[10]||null, awayImg:r[11]||null, away:r[12]
@@ -431,7 +430,7 @@ var SPORTS = [
     }
   },
   {
-    id:'superleague', label:'Super League', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
+    id:'superleague', label:'Super League', jerseyFacts:true, roundLabel:'Rd', hasDraws:true, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSok1HVSgQvwYqbhvpw-mJPFCoGIXJCHTcwQ4cPsHytrazTBu_bxTPcngUDivbL-yB_pjCxUmCOsGwh/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
       rows = skipBlankLead(rows);
@@ -439,7 +438,7 @@ var SPORTS = [
       return rows.slice(1).filter(function(r){ return r[5] && r[5] !== 'Home Team'; }).map(function(r){
         var yr = r[2] ? parseInt(r[2]) : null;
         return {
-          year:yr, date: dateCarryMonth(r[3], yr, monthState),
+          year:yr, date: dateCarryMonth(r[3], yr, monthState), round: r[4] || null,
           home:r[5], homeJersey:r[6]||null, homeImg:r[7]||null,
           homeScore: safeFloat(r[8]), awayScore: safeFloat(r[9]),
           awayJersey:r[10]||null, awayImg:r[11]||null, away:r[12]
@@ -502,22 +501,22 @@ function populateFilters(){
 // side of each of their matches counts - not whatever the opponent wore.
 function computeJerseyBuckets(team, year){
   var buckets = {};
-  function bump(jersey, result){
+  function bump(jersey, result, gf, ga){
     var key = jersey || 'Unknown';
-    if(!buckets[key]) buckets[key] = {jersey:key, gp:0, w:0, d:0, l:0};
+    if(!buckets[key]) buckets[key] = {jersey:key, gp:0, w:0, d:0, l:0, gf:0, ga:0};
     var b = buckets[key];
-    b.gp++;
+    b.gp++; b.gf += gf; b.ga += ga;
     if(result === 'win') b.w++; else if(result === 'loss') b.l++; else b.d++;
   }
   MATCHES.forEach(function(m){
     if(!isPlayed(m)) return;
     if(year && String(m.year) !== String(year)) return;
     if(team){
-      if(m.home === team) bump(m.homeJersey, resultFor(m, 'home'));
-      else if(m.away === team) bump(m.awayJersey, resultFor(m, 'away'));
+      if(m.home === team) bump(m.homeJersey, resultFor(m, 'home'), m.homeScore, m.awayScore);
+      else if(m.away === team) bump(m.awayJersey, resultFor(m, 'away'), m.awayScore, m.homeScore);
     } else {
-      bump(m.homeJersey, resultFor(m, 'home'));
-      bump(m.awayJersey, resultFor(m, 'away'));
+      bump(m.homeJersey, resultFor(m, 'home'), m.homeScore, m.awayScore);
+      bump(m.awayJersey, resultFor(m, 'away'), m.awayScore, m.homeScore);
     }
   });
   var totalGp = 0;
@@ -525,6 +524,7 @@ function computeJerseyBuckets(team, year){
   return Object.keys(buckets).map(function(k){
     var b = buckets[k];
     return Object.assign({}, b, {
+      gd: b.gf - b.ga,
       winPct: b.gp ? (b.w / b.gp * 100) : 0,
       sharePct: totalGp ? (b.gp / totalGp * 100) : 0
     });
@@ -625,7 +625,7 @@ function sortableTableHtml(tableId, list, cols, sortKey, paginationKey){
   return '<div class="table-scroll"><table class="jstat-table" id="' + tableId + '"><thead><tr>' + theadCells + '</tr></thead><tbody>' + rows + '</tbody></table></div>' +
     (page.hasMore ? expandButtonHtml(paginationKey, page.total) : '');
 }
-function winrateCols(showShare, hasDraws){
+function winrateCols(showShare, hasDraws, sport){
   var cols = [
     {key:'jersey', label:'Jersey', fmt:function(r){ return esc(r.jersey); }},
     {key:'gp', label:'GP'}, {key:'w', label:'W'}
@@ -634,6 +634,9 @@ function winrateCols(showShare, hasDraws){
   cols.push({key:'l', label:'L'});
   cols.push({key:'winPct', label:'Win%', fmt:function(r){ return r.winPct.toFixed(1) + '%'; }});
   if(showShare) cols.push({key:'sharePct', label:'Share%', fmt:function(r){ return r.sharePct.toFixed(1) + '%'; }});
+  cols.push({key:'gf', label:sport.scoreLabels.for});
+  cols.push({key:'ga', label:sport.scoreLabels.against});
+  cols.push({key:'gd', label:sport.scoreLabels.diff, fmt:function(r){ return (r.gd > 0 ? '+' : '') + r.gd; }, cls:function(r){ return r.gd > 0 ? 'gd-pos' : (r.gd < 0 ? 'gd-neg' : ''); }});
   return cols;
 }
 function ladderCols(sport, hasDraws){
@@ -652,86 +655,173 @@ function ladderCols(sport, hasDraws){
   return cols;
 }
 
-// ---------- power rankings (NRL trial) ----------
-function computePowerRankings(){
-  var year = latestYear(MATCHES);
-  if(!year) return null;
-  var groups = {};
-  function addSide(team, jersey, img, scoreFor, scoreAgainst, result, date){
-    if(!jersey || jersey === 'Unknown' || !result) return;
-    var key = team + '\u0001' + jersey;
-    if(!groups[key]) groups[key] = {team:team, jersey:jersey, games:[]};
-    groups[key].games.push({date:date, scoreFor:scoreFor, scoreAgainst:scoreAgainst, result:result, img:img});
+// ---------- jersey facts ----------
+// Rather than a single ranked "best jersey" leaderboard (the Ladder table
+// already shows that), this looks for a handful of genuinely distinct,
+// notable things about this season: a team leaning hard on one jersey
+// lately, the best point differential anyone's jersey has, a big recent
+// win/loss, and a team that hasn't broken out a jersey at all yet. Each
+// category contributes at most one fact, and a category is skipped
+// entirely if nothing in the data is actually notable.
+function possessive(name){ return name + (/s$/i.test(name) ? '’' : '’s'); }
+function roundsOrDatesWindow(seasonMatches, n, roundLabel){
+  if(roundLabel){
+    var rounds = [];
+    seasonMatches.forEach(function(m){ if(m.round && rounds.indexOf(m.round) === -1) rounds.push(m.round); });
+    rounds.sort(function(a,b){ return parseInt(b,10) - parseInt(a,10); });
+    var recentRounds = rounds.slice(0, n);
+    if(recentRounds.length) return seasonMatches.filter(function(m){ return m.round && recentRounds.indexOf(m.round) !== -1; });
   }
-  MATCHES.forEach(function(m){
-    if(!isPlayed(m) || String(m.year) !== String(year)) return;
-    addSide(m.home, m.homeJersey, m.homeImg, m.homeScore, m.awayScore, resultFor(m, 'home'), m.date);
-    addSide(m.away, m.awayJersey, m.awayImg, m.awayScore, m.homeScore, resultFor(m, 'away'), m.date);
+  var dates = [];
+  seasonMatches.forEach(function(m){ if(dates.indexOf(m.date) === -1) dates.push(m.date); });
+  dates.sort().reverse();
+  var recentDates = dates.slice(0, n);
+  return seasonMatches.filter(function(m){ return recentDates.indexOf(m.date) !== -1; });
+}
+function mostRecentImg(seasonMatches, team, jersey){
+  var games = seasonMatches.filter(function(m){
+    return (m.home === team && m.homeJersey === jersey) || (m.away === team && m.awayJersey === jersey);
+  }).sort(function(a,b){ return a.date.localeCompare(b.date); });
+  for(var i = games.length - 1; i >= 0; i--){
+    var g = games[i];
+    var img = g.home === team ? g.homeImg : g.awayImg;
+    if(img) return img;
+  }
+  return null;
+}
+function factFrequency(seasonMatches){
+  var byTeam = {};
+  seasonMatches.forEach(function(m){
+    [[m.home, m.homeJersey], [m.away, m.awayJersey]].forEach(function(s){
+      if(!byTeam[s[0]]) byTeam[s[0]] = [];
+      byTeam[s[0]].push({date:m.date, jersey:s[1] || 'Unknown'});
+    });
   });
-
-  var entries = Object.keys(groups).map(function(key){
-    var e = groups[key];
-    var games = e.games.slice().sort(function(a,b){ return a.date.localeCompare(b.date); });
-    var gp = games.length;
-    var w = games.filter(function(g){ return g.result === 'win'; }).length;
-    var winPct = gp ? (w / gp * 100) : 0;
-
-    var streak = 0;
-    for(var i = games.length - 1; i >= 0; i--){
-      if(games[i].result === 'win') streak++; else break;
-    }
-    var last5 = games.slice(-5);
-    var last5Wins = last5.filter(function(g){ return g.result === 'win'; }).length;
-
-    var biggestMargin = 0;
-    games.forEach(function(g){
-      if(g.result === 'win'){
-        var margin = g.scoreFor - g.scoreAgainst;
-        if(margin > biggestMargin) biggestMargin = margin;
+  var best = null;
+  Object.keys(byTeam).forEach(function(team){
+    var last = byTeam[team].sort(function(a,b){ return a.date.localeCompare(b.date); }).slice(-10);
+    if(last.length < 3) return;
+    var counts = {};
+    last.forEach(function(g){ counts[g.jersey] = (counts[g.jersey] || 0) + 1; });
+    Object.keys(counts).forEach(function(jersey){
+      if(jersey === 'Unknown') return;
+      var ratio = counts[jersey] / last.length;
+      if(ratio < 0.7) return;
+      if(!best || ratio > best.ratio || (ratio === best.ratio && counts[jersey] > best.count)){
+        best = {team:team, jersey:jersey, count:counts[jersey], total:last.length, ratio:ratio};
       }
     });
-
-    var img = null;
-    for(var j = games.length - 1; j >= 0; j--){ if(games[j].img){ img = games[j].img; break; } }
-
-    var score = streak * 15 + last5Wins * 8 + winPct * 0.5 + Math.min(biggestMargin, 50) * 0.6 + gp;
-
-    var reason;
-    if(streak >= 3) reason = streak + ' wins in a row in ' + e.jersey + ' jersey';
-    else if(last5Wins >= 4) reason = last5Wins + ' of last ' + last5.length + ' games won in ' + e.jersey + ' jersey';
-    else if(biggestMargin >= 20) reason = biggestMargin + ' pt win in ' + e.jersey + ' jersey';
-    else reason = winPct.toFixed(0) + '% win rate in ' + e.jersey + ' jersey this season';
-
-    return {team:e.team, jersey:e.jersey, gp:gp, w:w, winPct:winPct, img:img, reason:reason, score:score};
   });
-
-  entries.sort(function(a,b){ return b.score - a.score; });
-  return {year:year, entries:entries.slice(0, 5)};
+  if(!best) return null;
+  return {team:best.team, jersey:best.jersey,
+    text: best.team + ' have worn their ' + best.jersey + ' jersey in ' + best.count + ' of their last ' + best.total + ' games'};
 }
-function powerRankingsHtml(sport){
-  if(!sport.powerRankings){
-    return '<section class="panel"><h2>Top 5 Jerseys This Season</h2>' +
-      '<p class="empty-note">Power rankings aren&rsquo;t trialling on ' + esc(sport.label) + ' yet &mdash; NRL only for now.</p></section>';
+function factBestDiff(seasonMatches){
+  var buckets = {};
+  seasonMatches.forEach(function(m){
+    [[m.home, m.homeJersey, m.homeScore, m.awayScore], [m.away, m.awayJersey, m.awayScore, m.homeScore]].forEach(function(s){
+      if(!s[1] || s[1] === 'Unknown') return;
+      var key = s[0] + '\u0001' + s[1];
+      if(!buckets[key]) buckets[key] = {team:s[0], jersey:s[1], gp:0, gf:0, ga:0};
+      buckets[key].gp++; buckets[key].gf += s[2]; buckets[key].ga += s[3];
+    });
+  });
+  var list = Object.keys(buckets).map(function(k){ var b = buckets[k]; return Object.assign({}, b, {pd: b.gf - b.ga}); });
+  if(!list.length) return null;
+  list.sort(function(a,b){ return b.pd - a.pd; });
+  var top = list[0];
+  if(top.pd <= 0) return null;
+  return {team:top.team, jersey:top.jersey,
+    text: possessive(top.team) + ' ' + top.jersey + ' jersey has the best point differential of any jersey this season: +' + top.pd + ' from ' + top.gp + ' game' + (top.gp === 1 ? '' : 's')};
+}
+function factBiggestMargin(windowMatches, roundLabel, wantWin){
+  var best = null;
+  windowMatches.forEach(function(m){
+    [[m.home, m.homeJersey, m.homeScore, m.awayScore, 'home'], [m.away, m.awayJersey, m.awayScore, m.homeScore, 'away']].forEach(function(s){
+      if(!s[1] || s[1] === 'Unknown') return;
+      var result = resultFor(m, s[4]);
+      if(wantWin && result !== 'win') return;
+      if(!wantWin && result !== 'loss') return;
+      var margin = Math.abs(s[2] - s[3]);
+      if(!best || margin > best.margin) best = {team:s[0], jersey:s[1], margin:margin, round:m.round};
+    });
+  });
+  if(!best) return null;
+  var roundPart = (roundLabel && best.round) ? (' in ' + roundLabel + ' ' + best.round) : '';
+  var verb = wantWin ? 'win' : 'loss';
+  return {team:best.team, jersey:best.jersey,
+    text: possessive(best.team) + ' biggest recent ' + verb + ' came in their ' + best.jersey + ' jersey: a ' + best.margin + '-pt ' + verb + roundPart};
+}
+function factNeverWorn(seasonMatches, currentRoundNum, roundLabel){
+  if(roundLabel && (currentRoundNum === null || currentRoundNum < 8)) return null;
+  var teams = {};
+  seasonMatches.forEach(function(m){
+    [[m.home, m.homeJersey], [m.away, m.awayJersey]].forEach(function(s){
+      if(!teams[s[0]]) teams[s[0]] = {Home:0, Away:0, total:0};
+      teams[s[0]].total++;
+      if(s[1] === 'Home') teams[s[0]].Home++;
+      else if(s[1] === 'Away') teams[s[0]].Away++;
+    });
+  });
+  var minGames = roundLabel ? 8 : 10;
+  var candidate = null;
+  Object.keys(teams).forEach(function(team){
+    if(candidate) return;
+    var t = teams[team];
+    if(t.total < minGames) return;
+    if(t.Home === 0) candidate = {team:team, jersey:'Home'};
+    else if(t.Away === 0) candidate = {team:team, jersey:'Away'};
+  });
+  if(!candidate) return null;
+  return {team:candidate.team, jersey:candidate.jersey,
+    text: candidate.team + ' haven’t worn their ' + candidate.jersey + ' jersey yet this season'};
+}
+function computeJerseyFacts(sport){
+  var year = latestYear(MATCHES);
+  if(!year) return null;
+  var seasonMatches = MATCHES.filter(function(m){ return isPlayed(m) && String(m.year) === String(year); });
+  if(!seasonMatches.length) return null;
+
+  var currentRoundNum = null;
+  if(sport.roundLabel){
+    var rounds = seasonMatches.map(function(m){ return parseInt(m.round, 10); }).filter(function(n){ return !isNaN(n); });
+    if(rounds.length) currentRoundNum = Math.max.apply(null, rounds);
   }
-  var result = computePowerRankings();
-  if(!result || result.entries.length === 0){
-    return '<section class="panel"><h2>Top 5 Jerseys This Season</h2>' +
-      '<p class="empty-note">Not enough played games yet this season.</p></section>';
+  var recentWindow = roundsOrDatesWindow(seasonMatches, 3, sport.roundLabel);
+
+  var facts = [], f;
+  f = factFrequency(seasonMatches); if(f) facts.push(f);
+  f = factBestDiff(seasonMatches); if(f) facts.push(f);
+  f = factBiggestMargin(recentWindow, sport.roundLabel, true); if(f) facts.push(f);
+  f = factBiggestMargin(recentWindow, sport.roundLabel, false); if(f) facts.push(f);
+  f = factNeverWorn(seasonMatches, currentRoundNum, sport.roundLabel); if(f) facts.push(f);
+
+  facts.forEach(function(fact){ fact.img = mostRecentImg(seasonMatches, fact.team, fact.jersey); });
+  return {year:year, facts:facts.slice(0, 5)};
+}
+function jerseyFactsHtml(sport){
+  if(!sport.jerseyFacts){
+    return '<section class="panel"><h2>Jersey Facts</h2>' +
+      '<p class="empty-note">Jersey Facts aren&rsquo;t available for ' + esc(sport.label) + ' yet.</p></section>';
   }
-  var cards = result.entries.map(function(e, i){
-    var imgHtml = e.img
-      ? '<img src="' + esc(e.img) + '" alt="' + esc(e.team) + ' ' + esc(e.jersey) + ' jersey" loading="lazy">'
+  var result = computeJerseyFacts(sport);
+  if(!result || result.facts.length === 0){
+    return '<section class="panel"><h2>Jersey Facts</h2>' +
+      '<p class="empty-note">Nothing notable to report yet this season.</p></section>';
+  }
+  var cards = result.facts.map(function(f){
+    var imgHtml = f.img
+      ? '<img src="' + esc(f.img) + '" alt="' + esc(f.team) + ' ' + esc(f.jersey) + ' jersey" loading="lazy">'
       : '<i class="ti ti-shirt-sport"></i>';
     return '<div class="power-card">' +
-      '<div class="power-rank">#' + (i + 1) + '</div>' +
-      '<div class="power-photo' + (e.img ? '' : ' empty') + '">' + imgHtml + '</div>' +
-      '<div class="power-team">' + esc(e.team) + '</div>' +
-      '<div class="power-jersey">' + esc(e.jersey) + '</div>' +
-      '<div class="power-reason">' + esc(e.reason) + '</div>' +
+      '<div class="power-photo' + (f.img ? '' : ' empty') + '">' + imgHtml + '</div>' +
+      '<div class="power-team">' + esc(f.team) + '</div>' +
+      '<div class="power-jersey">' + esc(f.jersey) + '</div>' +
+      '<div class="power-reason">' + esc(f.text) + '</div>' +
     '</div>';
   }).join('');
-  return '<section class="panel"><h2>Top 5 Jerseys This Season</h2>' +
-    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a power-ranking of current form (streaks, recent results, and big wins) by jersey type. Unknown jerseys are excluded.</p>' +
+  return '<section class="panel"><h2>Jersey Facts</h2>' +
+    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a few notable things about jersey usage and results this season. Unknown jerseys are excluded, and big-margin facts only look at the last 3 ' + (sport.roundLabel ? 'rounds' : 'match dates') + '.</p>' +
     '<div class="power-grid">' + cards + '</div></section>';
 }
 
@@ -740,7 +830,7 @@ function render(){
   var team = fTeam.value, year = fSeason.value, sortMode = fSort.value;
   var buckets = sortBuckets(computeJerseyBuckets(team, year), sortMode);
 
-  var html = powerRankingsHtml(sport);
+  var html = jerseyFactsHtml(sport);
 
   html += '<section class="panel"><h2>' + (team ? esc(team) : 'All Teams') + (year ? ' — ' + esc(String(year)) : '') + ' &mdash; Jersey Usage &amp; Win Rate</h2>' +
     '<p class="panel-sub">Bar length is how often that jersey was worn; the fill is its win / draw / loss split.</p>' +
@@ -748,7 +838,7 @@ function render(){
 
   html += '<section class="panel"><h2>Win % by Jersey Type</h2>' +
     '<p class="panel-sub">' + (team ? 'Share% is this jersey’s portion of ' + esc(team) + '’s games in this selection.' : 'Share% is this jersey’s portion of all games league-wide in this selection.') + ' Click a column to sort.</p>' +
-    sortableTableHtml('winrate-table', buckets, winrateCols(true, sport.hasDraws), 'winrate', 'winrate') + '</section>';
+    sortableTableHtml('winrate-table', buckets, winrateCols(true, sport.hasDraws, sport), 'winrate', 'winrate') + '</section>';
 
   if(!team){
     var ladder = computeLadder(year);
