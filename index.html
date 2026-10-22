@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="The Jersey Database - a match tracker covering who wore what, when, and a fan-uploaded jersey archive, across every sport.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E8B84B' stroke-width='2'%3E%3Cpath d='M4 5l4-2 4 2 4-2 4 2v3l-3 1v11H7V9L4 8z'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F4BA34' stroke-width='2'%3E%3Cpath d='M4 5l4-2 4 2 4-2 4 2v3l-3 1v11H7V9L4 8z'/%3E%3C/svg%3E">
 <title>The Jersey Database</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
     --text:#F2F6EF;
     --text-dim:#9FC2AD;
     --text-dim2:#86A894;
-    --accent:#E8B84B;
-    --accent-archive:#3FD1A8;
+    --accent:#F4BA34;
+    --accent-archive:#47D1C6;
   }
 
   :root[data-theme="light"]{
@@ -31,8 +31,8 @@
     --text:#1C2B21;
     --text-dim:#3F4F43;
     --text-dim2:#4E5E53;
-    --accent:#8A6300;
-    --accent-archive:#1F7A63;
+    --accent:#8C6407;
+    --accent-archive:#15786F;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -59,7 +59,7 @@
   .hero-glow{
     position:absolute;top:-220px;left:50%;width:720px;height:440px;
     transform:translateX(-50%);
-    background:radial-gradient(ellipse at center, rgba(232,184,75,0.14), transparent 70%);
+    background:radial-gradient(ellipse at center, rgba(244,186,52,0.14), transparent 70%);
     pointer-events:none;animation:glow 6s ease-in-out infinite;
   }
   @media (prefers-reduced-motion:reduce){ .hero-glow{animation:none;} }
@@ -132,6 +132,9 @@
     font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text-dim2);line-height:1.7;
   }
   footer a{color:var(--accent);text-decoration:none;}
+  .page-nav{display:flex;gap:16px;justify-content:center;margin-bottom:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;}
+  .page-nav a{color:var(--text-dim);text-decoration:none;}
+  .page-nav a:hover{color:var(--accent);}
 
   :focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
 
@@ -174,6 +177,11 @@
   </section>
 
   <footer>
+    <div class="page-nav">
+      <a href="contact.html">Contact</a>
+      <a href="sources.html">Sources</a>
+      <a href="updates.html">Updates</a>
+    </div>
     <p>
       A fan-built project. Not affiliated with any league, club, federation, or governing body.
     </p>
