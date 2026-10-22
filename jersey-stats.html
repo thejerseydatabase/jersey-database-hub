@@ -762,6 +762,10 @@ function mostRecentImg(seasonMatches, team, jersey){
 // computeJerseyFacts can backfill from deeper in a strong category when a
 // weaker one has nothing to offer - that's how it keeps 5 cards filled
 // instead of silently dropping to 2 or 3 on a quiet week.
+// None of these bake in display text any more - the wording for "best"/
+// "worst"/"biggest" only holds for the actual #1 entry in its own list, so
+// text is generated at selection time once computeJerseyFacts knows each
+// pick's rank within its pool (see buildFactText).
 function factFrequencyList(seasonMatches){
   var byTeam = {};
   seasonMatches.forEach(function(m){
@@ -780,14 +784,13 @@ function factFrequencyList(seasonMatches){
       if(jersey === 'Unknown') return;
       var ratio = counts[jersey] / last.length;
       if(ratio < 0.6) return;
-      results.push({team:team, jersey:jersey, ratio:ratio, count:counts[jersey],
-        text: 'Have worn ' + jersey + ' jersey in ' + counts[jersey] + ' of last ' + last.length + ' games'});
+      results.push({team:team, jersey:jersey, ratio:ratio, count:counts[jersey], total:last.length});
     });
   });
   results.sort(function(a,b){ return b.ratio - a.ratio || b.count - a.count; });
   return results;
 }
-function factBestDiffList(seasonMatches){
+function diffBuckets(seasonMatches){
   var buckets = {};
   seasonMatches.forEach(function(m){
     [[m.home, m.homeJersey, m.homeScore, m.awayScore], [m.away, m.awayJersey, m.awayScore, m.homeScore]].forEach(function(s){
@@ -797,31 +800,20 @@ function factBestDiffList(seasonMatches){
       buckets[key].gp++; buckets[key].gf += s[2]; buckets[key].ga += s[3];
     });
   });
-  var list = Object.keys(buckets).map(function(k){
-    var b = buckets[k], pd = b.gf - b.ga;
-    return {team:b.team, jersey:b.jersey, pd:pd, gp:b.gp,
-      text: 'Best point differential of any jersey this season: +' + pd + ' from ' + b.gp + ' game' + (b.gp === 1 ? '' : 's')};
+  return Object.keys(buckets).map(function(k){
+    var b = buckets[k];
+    return {team:b.team, jersey:b.jersey, pd:b.gf - b.ga, gp:b.gp};
   });
+}
+function factBestDiffList(seasonMatches){
+  var list = diffBuckets(seasonMatches).filter(function(r){ return r.pd > 0; });
   list.sort(function(a,b){ return b.pd - a.pd; });
-  return list.filter(function(r){ return r.pd > 0; });
+  return list;
 }
 function factWorstDiffList(seasonMatches){
-  var buckets = {};
-  seasonMatches.forEach(function(m){
-    [[m.home, m.homeJersey, m.homeScore, m.awayScore], [m.away, m.awayJersey, m.awayScore, m.homeScore]].forEach(function(s){
-      if(!s[1] || s[1] === 'Unknown') return;
-      var key = s[0] + '\u0001' + s[1];
-      if(!buckets[key]) buckets[key] = {team:s[0], jersey:s[1], gp:0, gf:0, ga:0};
-      buckets[key].gp++; buckets[key].gf += s[2]; buckets[key].ga += s[3];
-    });
-  });
-  var list = Object.keys(buckets).map(function(k){
-    var b = buckets[k], pd = b.gf - b.ga;
-    return {team:b.team, jersey:b.jersey, pd:pd, gp:b.gp,
-      text: 'Worst point differential of any jersey this season: ' + pd + ' from ' + b.gp + ' game' + (b.gp === 1 ? '' : 's')};
-  });
+  var list = diffBuckets(seasonMatches).filter(function(r){ return r.pd < 0; });
   list.sort(function(a,b){ return a.pd - b.pd; });
-  return list.filter(function(r){ return r.pd < 0; });
+  return list;
 }
 function factMarginList(windowMatches, roundLabel, wantWin, sport){
   var list = [];
@@ -831,16 +823,27 @@ function factMarginList(windowMatches, roundLabel, wantWin, sport){
       var result = resultFor(m, s[4]);
       if(wantWin && result !== 'win') return;
       if(!wantWin && result !== 'loss') return;
-      var margin = Math.abs(s[2] - s[3]);
       var roundPart = (roundLabel && m.round) ? (' in ' + roundLabel + ' ' + m.round) : '';
-      var verb = wantWin ? 'win' : 'loss';
-      var prep = wantWin ? 'vs' : 'to';
-      list.push({team:s[0], jersey:s[1], margin:margin,
-        text: 'Biggest recent ' + verb + ' in ' + s[1] + ' jersey ' + prep + ' ' + teamShort(s[5], sport) + roundPart + ': ' + margin + ' pts'});
+      list.push({team:s[0], jersey:s[1], margin:Math.abs(s[2] - s[3]), opponent:teamShort(s[5], sport), roundPart:roundPart});
     });
   });
   list.sort(function(a,b){ return b.margin - a.margin; });
   return list;
+}
+function buildFactText(category, cand, rank){
+  if(category === 'frequency') return 'Have worn ' + cand.jersey + ' jersey in ' + cand.count + ' of last ' + cand.total + ' games';
+  if(category === 'bestDiff'){
+    return (rank === 0 ? 'Best point differential of any jersey this season' : 'Strong point differential in ' + cand.jersey + ' jersey this season') +
+      ': +' + cand.pd + ' from ' + cand.gp + ' game' + (cand.gp === 1 ? '' : 's');
+  }
+  if(category === 'worstDiff'){
+    return (rank === 0 ? 'Worst point differential of any jersey this season' : 'Negative point differential in ' + cand.jersey + ' jersey this season') +
+      ': ' + cand.pd + ' from ' + cand.gp + ' game' + (cand.gp === 1 ? '' : 's');
+  }
+  var wantWin = category === 'marginWin';
+  var verb = wantWin ? 'win' : 'loss', prep = wantWin ? 'vs' : 'to';
+  var lead = (rank === 0 ? 'Biggest recent ' : 'Recent ') + verb;
+  return lead + ' in ' + cand.jersey + ' jersey ' + prep + ' ' + cand.opponent + cand.roundPart + ': ' + cand.margin + ' pts';
 }
 function computeJerseyFacts(sport){
   var year = latestYear(MATCHES);
@@ -849,28 +852,38 @@ function computeJerseyFacts(sport){
   if(!seasonMatches.length) return null;
 
   var recentWindow = roundsOrDatesWindow(seasonMatches, 3, sport.roundLabel);
-
-  // Exactly one candidate per category, never a second pick from the same
-  // pool - pulling a 2nd-best entry from (say) the PD list used to still
-  // say "Best point differential..." even though it wasn't actually the
-  // best, which was misleading. 5 distinct categories means 5 cards in the
-  // normal case; a quiet category (or a team+jersey collision between two
-  // categories) just means fewer than 5 rather than a false claim.
-  var candidates = [
-    factFrequencyList(seasonMatches)[0],
-    factBestDiffList(seasonMatches)[0],
-    factWorstDiffList(seasonMatches)[0],
-    factMarginList(recentWindow, sport.roundLabel, true, sport)[0],
-    factMarginList(recentWindow, sport.roundLabel, false, sport)[0]
+  var pools = [
+    {name:'frequency', list:factFrequencyList(seasonMatches)},
+    {name:'bestDiff', list:factBestDiffList(seasonMatches)},
+    {name:'worstDiff', list:factWorstDiffList(seasonMatches)},
+    {name:'marginWin', list:factMarginList(recentWindow, sport.roundLabel, true, sport)},
+    {name:'marginLoss', list:factMarginList(recentWindow, sport.roundLabel, false, sport)}
   ];
-  var facts = [], usedKeys = {};
-  candidates.forEach(function(cand){
-    if(!cand) return;
-    var key = cand.team + '\u0001' + cand.jersey;
-    if(usedKeys[key]) return;
-    usedKeys[key] = true;
-    facts.push(cand);
-  });
+  // Round-robin through the categories, backfilling from deeper in a
+  // pool when needed to reach 5 - each pick's wording is generated from
+  // its actual rank within its own pool (see buildFactText), so a "best"/
+  // "biggest" claim is only ever used for a genuine #1, never reused
+  // verbatim for a 2nd or 3rd pick the way the old version did.
+  var idx = pools.map(function(){ return 0; });
+  var facts = [], usedKeys = {}, progressed = true;
+  while(facts.length < 5 && progressed){
+    progressed = false;
+    for(var p = 0; p < pools.length && facts.length < 5; p++){
+      var list = pools[p].list;
+      while(idx[p] < list.length){
+        var rank = idx[p];
+        var cand = list[rank];
+        idx[p]++;
+        var key = cand.team + '\u0001' + cand.jersey;
+        if(usedKeys[key]) continue;
+        usedKeys[key] = true;
+        cand.text = buildFactText(pools[p].name, cand, rank);
+        facts.push(cand);
+        progressed = true;
+        break;
+      }
+    }
+  }
   facts.forEach(function(fact){ fact.img = mostRecentImg(seasonMatches, fact.team, fact.jersey); });
   return {year:year, facts:facts};
 }
