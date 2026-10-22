@@ -136,15 +136,26 @@
   .theme-toggle:hover{color:var(--accent);border-color:var(--accent);}
   .back-to-hub{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;color:var(--text-dim);text-decoration:none;display:inline-block;margin-bottom:20px;}
   .back-to-hub:hover{color:var(--accent);}
+  .sub-nav{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:20px;}
+  .sub-nav .back-to-hub{margin-bottom:0;}
+  .sub-nav-links{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.05em;}
+  .sub-nav-links a{color:var(--text-dim);text-decoration:none;}
+  .sub-nav-links a:hover{color:var(--accent);}
+  .sub-nav-links span{color:var(--line);}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header class="hero">
     <button id="theme-toggle" class="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle light/dark mode"><i class="ti ti-moon"></i></button>
-    <a href="index.html" class="back-to-hub">&larr; Home</a>
-    <a href="jersey-stats.html" class="back-to-hub" style="margin-left:16px;">Jersey Stats &rarr;</a>
-    <a href="https://archive.thejerseydatabase.com" class="back-to-hub" style="margin-left:16px;">Jersey Archive &rarr;</a>
+    <div class="sub-nav">
+      <a href="index.html" class="back-to-hub">&larr; Home</a>
+      <div class="sub-nav-links">
+        <a href="jersey-stats.html">Jersey Stats</a>
+        <span>&middot;</span>
+        <a href="https://archive.thejerseydatabase.com">Jersey Archive</a>
+      </div>
+    </div>
     <div class="hero-glow"></div>
     <div class="hero-circle"></div>
     <p class="eyebrow">Jersey Tracker</p>
