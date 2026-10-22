@@ -786,52 +786,25 @@ function factMarginList(windowMatches, roundLabel, wantWin){
   list.sort(function(a,b){ return b.margin - a.margin; });
   return list;
 }
-function factNeverWornList(seasonMatches, currentRoundNum, roundLabel){
-  if(roundLabel && (currentRoundNum === null || currentRoundNum < 8)) return [];
-  var teams = {};
-  seasonMatches.forEach(function(m){
-    [[m.home, m.homeJersey], [m.away, m.awayJersey]].forEach(function(s){
-      if(!teams[s[0]]) teams[s[0]] = {Home:0, Away:0, total:0};
-      teams[s[0]].total++;
-      if(s[1] === 'Home') teams[s[0]].Home++;
-      else if(s[1] === 'Away') teams[s[0]].Away++;
-    });
-  });
-  var minGames = roundLabel ? 8 : 10;
-  var results = [];
-  Object.keys(teams).forEach(function(team){
-    var t = teams[team];
-    if(t.total < minGames) return;
-    if(t.Home === 0) results.push({team:team, jersey:'Home', text:'Haven’t worn their Home jersey yet this season'});
-    if(t.Away === 0) results.push({team:team, jersey:'Away', text:'Haven’t worn their Away jersey yet this season'});
-  });
-  return results;
-}
 function computeJerseyFacts(sport){
   var year = latestYear(MATCHES);
   if(!year) return null;
   var seasonMatches = MATCHES.filter(function(m){ return isPlayed(m) && String(m.year) === String(year); });
   if(!seasonMatches.length) return null;
 
-  var currentRoundNum = null;
-  if(sport.roundLabel){
-    var rounds = seasonMatches.map(function(m){ return parseInt(m.round, 10); }).filter(function(n){ return !isNaN(n); });
-    if(rounds.length) currentRoundNum = Math.max.apply(null, rounds);
-  }
   var recentWindow = roundsOrDatesWindow(seasonMatches, 3, sport.roundLabel);
 
   var pools = [
     factFrequencyList(seasonMatches),
     factBestDiffList(seasonMatches),
     factMarginList(recentWindow, sport.roundLabel, true),
-    factMarginList(recentWindow, sport.roundLabel, false),
-    factNeverWornList(seasonMatches, currentRoundNum, sport.roundLabel)
+    factMarginList(recentWindow, sport.roundLabel, false)
   ];
   // Round-robin through the categories so the 5 cards stay varied rather
   // than all coming from whichever single category has the deepest pool;
   // a category only gets revisited for a second pick once every other
   // category has had a turn, and a team+jersey already shown is skipped.
-  var idx = [0, 0, 0, 0, 0];
+  var idx = [0, 0, 0, 0];
   var facts = [], usedKeys = {}, progressed = true;
   while(facts.length < 5 && progressed){
     progressed = false;
@@ -872,7 +845,7 @@ function jerseyFactsHtml(sport){
     '</div>';
   }).join('');
   return '<section class="panel"><h2>Jersey Facts</h2>' +
-    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a few notable things about jersey usage and results this season. Unknown jerseys are excluded, and big-margin facts only look at the last 3 ' + (sport.roundLabel ? 'rounds' : 'match dates') + '.</p>' +
+    '<p class="panel-sub">' + esc(sport.label) + ' ' + esc(String(result.year)) + ' &mdash; a few notable things about jersey usage and results this season. Unknown jerseys are excluded, and big-margin facts only look at the last 3 ' + (sport.roundLabel ? 'rounds' : 'match dates') + '. Facts are generated automatically from the match data, not hand-picked.</p>' +
     '<div class="power-grid">' + cards + '</div></section>';
 }
 
