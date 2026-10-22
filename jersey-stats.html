@@ -607,13 +607,36 @@ function rowHtmlFor(cols, r){
     return '<td' + (cls ? ' class="' + cls + '"' : '') + '>' + val + '</td>';
   }).join('') + '</tr>';
 }
+// When two rows tie on the clicked column, fall back through these columns
+// (in the same sort direction) instead of leaving the tie order arbitrary -
+// e.g. sorting by PTS still needs PD, then W, then GP to land teams in the
+// order a real ladder would show them. The final entry is always a stable,
+// fully-deterministic fallback.
+var TIEBREAKERS = {
+  ladder: {
+    pts:['gd','w','gp','gf','team'], gd:['pts','w','gp','team'], winPct:['gp','pts','team'],
+    w:['gd','pts','team'], gp:['pts','gd','team'], l:['gd','team'], d:['gd','team'],
+    gf:['gd','team'], ga:['gd','team'], team:['jersey'], jersey:['team']
+  },
+  winrate: {
+    gp:['gd','winPct','jersey'], w:['gd','winPct','jersey'], winPct:['gp','jersey'],
+    sharePct:['gp','jersey'], gd:['winPct','gp','jersey'], gf:['gd','jersey'], ga:['gd','jersey'],
+    l:['gd','jersey'], d:['gd','jersey'], jersey:[]
+  }
+};
 function sortableTableHtml(tableId, list, cols, sortKey, paginationKey){
   if(list.length === 0) return '<p class="empty-note">No results for this selection.</p>';
   var state = tableSortState[sortKey];
+  var chain = [state.col].concat((TIEBREAKERS[sortKey] && TIEBREAKERS[sortKey][state.col]) || []);
   var sorted = list.slice().sort(function(a,b){
-    var av = a[state.col], bv = b[state.col];
-    if(typeof av === 'string') return state.dir * av.localeCompare(bv);
-    return state.dir * (av - bv);
+    for(var i = 0; i < chain.length; i++){
+      var c = chain[i], av = a[c], bv = b[c], d;
+      if(typeof av === 'string') d = av.localeCompare(bv);
+      else d = av - bv;
+      d *= state.dir;
+      if(d !== 0) return d;
+    }
+    return 0;
   });
   var page = paginate(sorted, paginationKey);
   var rows = page.shown.map(function(r){ return rowHtmlFor(cols, r); }).join('');
@@ -663,7 +686,15 @@ function ladderCols(sport, hasDraws){
 // win/loss, and a team that hasn't broken out a jersey at all yet. Each
 // category contributes at most one fact, and a category is skipped
 // entirely if nothing in the data is actually notable.
-function possessive(name){ return name + (/s$/i.test(name) ? '’' : '’s'); }
+// Best-effort abbreviation since the sheets don't carry an official short
+// code: initials for a multi-word name (South East Melbourne -> SEM), first
+// three letters for a one-word name (Tasmania -> TAS).
+function abbrevTeam(name){
+  if(!name) return '';
+  var words = name.trim().split(/\s+/);
+  if(words.length === 1) return words[0].slice(0, 3).toUpperCase();
+  return words.map(function(w){ return w.charAt(0); }).join('').toUpperCase().slice(0, 4);
+}
 function roundsOrDatesWindow(seasonMatches, n, roundLabel){
   if(roundLabel){
     var rounds = [];
@@ -689,7 +720,11 @@ function mostRecentImg(seasonMatches, team, jersey){
   }
   return null;
 }
-function factFrequency(seasonMatches){
+// Each of these returns a list (best first), not just a single winner, so
+// computeJerseyFacts can backfill from deeper in a strong category when a
+// weaker one has nothing to offer - that's how it keeps 5 cards filled
+// instead of silently dropping to 2 or 3 on a quiet week.
+function factFrequencyList(seasonMatches){
   var byTeam = {};
   seasonMatches.forEach(function(m){
     [[m.home, m.homeJersey], [m.away, m.awayJersey]].forEach(function(s){
@@ -697,7 +732,7 @@ function factFrequency(seasonMatches){
       byTeam[s[0]].push({date:m.date, jersey:s[1] || 'Unknown'});
     });
   });
-  var best = null;
+  var results = [];
   Object.keys(byTeam).forEach(function(team){
     var last = byTeam[team].sort(function(a,b){ return a.date.localeCompare(b.date); }).slice(-10);
     if(last.length < 3) return;
@@ -706,17 +741,15 @@ function factFrequency(seasonMatches){
     Object.keys(counts).forEach(function(jersey){
       if(jersey === 'Unknown') return;
       var ratio = counts[jersey] / last.length;
-      if(ratio < 0.7) return;
-      if(!best || ratio > best.ratio || (ratio === best.ratio && counts[jersey] > best.count)){
-        best = {team:team, jersey:jersey, count:counts[jersey], total:last.length, ratio:ratio};
-      }
+      if(ratio < 0.6) return;
+      results.push({team:team, jersey:jersey, ratio:ratio, count:counts[jersey],
+        text: 'Have worn ' + jersey + ' jersey in ' + counts[jersey] + ' of last ' + last.length + ' games'});
     });
   });
-  if(!best) return null;
-  return {team:best.team, jersey:best.jersey,
-    text: best.team + ' have worn their ' + best.jersey + ' jersey in ' + best.count + ' of their last ' + best.total + ' games'};
+  results.sort(function(a,b){ return b.ratio - a.ratio || b.count - a.count; });
+  return results;
 }
-function factBestDiff(seasonMatches){
+function factBestDiffList(seasonMatches){
   var buckets = {};
   seasonMatches.forEach(function(m){
     [[m.home, m.homeJersey, m.homeScore, m.awayScore], [m.away, m.awayJersey, m.awayScore, m.homeScore]].forEach(function(s){
@@ -726,34 +759,35 @@ function factBestDiff(seasonMatches){
       buckets[key].gp++; buckets[key].gf += s[2]; buckets[key].ga += s[3];
     });
   });
-  var list = Object.keys(buckets).map(function(k){ var b = buckets[k]; return Object.assign({}, b, {pd: b.gf - b.ga}); });
-  if(!list.length) return null;
+  var list = Object.keys(buckets).map(function(k){
+    var b = buckets[k], pd = b.gf - b.ga;
+    return {team:b.team, jersey:b.jersey, pd:pd, gp:b.gp,
+      text: 'Best point differential of any jersey this season: +' + pd + ' from ' + b.gp + ' game' + (b.gp === 1 ? '' : 's')};
+  });
   list.sort(function(a,b){ return b.pd - a.pd; });
-  var top = list[0];
-  if(top.pd <= 0) return null;
-  return {team:top.team, jersey:top.jersey,
-    text: possessive(top.team) + ' ' + top.jersey + ' jersey has the best point differential of any jersey this season: +' + top.pd + ' from ' + top.gp + ' game' + (top.gp === 1 ? '' : 's')};
+  return list.filter(function(r){ return r.pd > 0; });
 }
-function factBiggestMargin(windowMatches, roundLabel, wantWin){
-  var best = null;
+function factMarginList(windowMatches, roundLabel, wantWin){
+  var list = [];
   windowMatches.forEach(function(m){
-    [[m.home, m.homeJersey, m.homeScore, m.awayScore, 'home'], [m.away, m.awayJersey, m.awayScore, m.homeScore, 'away']].forEach(function(s){
+    [[m.home, m.homeJersey, m.homeScore, m.awayScore, 'home', m.away], [m.away, m.awayJersey, m.awayScore, m.homeScore, 'away', m.home]].forEach(function(s){
       if(!s[1] || s[1] === 'Unknown') return;
       var result = resultFor(m, s[4]);
       if(wantWin && result !== 'win') return;
       if(!wantWin && result !== 'loss') return;
       var margin = Math.abs(s[2] - s[3]);
-      if(!best || margin > best.margin) best = {team:s[0], jersey:s[1], margin:margin, round:m.round};
+      var roundPart = (roundLabel && m.round) ? (' in ' + roundLabel + ' ' + m.round) : '';
+      var verb = wantWin ? 'win' : 'loss';
+      var prep = wantWin ? 'vs' : 'to';
+      list.push({team:s[0], jersey:s[1], margin:margin,
+        text: 'Biggest recent ' + verb + ' in ' + s[1] + ' jersey ' + prep + ' ' + abbrevTeam(s[5]) + roundPart + ': ' + margin + ' pts'});
     });
   });
-  if(!best) return null;
-  var roundPart = (roundLabel && best.round) ? (' in ' + roundLabel + ' ' + best.round) : '';
-  var verb = wantWin ? 'win' : 'loss';
-  return {team:best.team, jersey:best.jersey,
-    text: possessive(best.team) + ' biggest recent ' + verb + ' came in their ' + best.jersey + ' jersey: a ' + best.margin + '-pt ' + verb + roundPart};
+  list.sort(function(a,b){ return b.margin - a.margin; });
+  return list;
 }
-function factNeverWorn(seasonMatches, currentRoundNum, roundLabel){
-  if(roundLabel && (currentRoundNum === null || currentRoundNum < 8)) return null;
+function factNeverWornList(seasonMatches, currentRoundNum, roundLabel){
+  if(roundLabel && (currentRoundNum === null || currentRoundNum < 8)) return [];
   var teams = {};
   seasonMatches.forEach(function(m){
     [[m.home, m.homeJersey], [m.away, m.awayJersey]].forEach(function(s){
@@ -764,17 +798,14 @@ function factNeverWorn(seasonMatches, currentRoundNum, roundLabel){
     });
   });
   var minGames = roundLabel ? 8 : 10;
-  var candidate = null;
+  var results = [];
   Object.keys(teams).forEach(function(team){
-    if(candidate) return;
     var t = teams[team];
     if(t.total < minGames) return;
-    if(t.Home === 0) candidate = {team:team, jersey:'Home'};
-    else if(t.Away === 0) candidate = {team:team, jersey:'Away'};
+    if(t.Home === 0) results.push({team:team, jersey:'Home', text:'Haven’t worn their Home jersey yet this season'});
+    if(t.Away === 0) results.push({team:team, jersey:'Away', text:'Haven’t worn their Away jersey yet this season'});
   });
-  if(!candidate) return null;
-  return {team:candidate.team, jersey:candidate.jersey,
-    text: candidate.team + ' haven’t worn their ' + candidate.jersey + ' jersey yet this season'};
+  return results;
 }
 function computeJerseyFacts(sport){
   var year = latestYear(MATCHES);
@@ -789,15 +820,35 @@ function computeJerseyFacts(sport){
   }
   var recentWindow = roundsOrDatesWindow(seasonMatches, 3, sport.roundLabel);
 
-  var facts = [], f;
-  f = factFrequency(seasonMatches); if(f) facts.push(f);
-  f = factBestDiff(seasonMatches); if(f) facts.push(f);
-  f = factBiggestMargin(recentWindow, sport.roundLabel, true); if(f) facts.push(f);
-  f = factBiggestMargin(recentWindow, sport.roundLabel, false); if(f) facts.push(f);
-  f = factNeverWorn(seasonMatches, currentRoundNum, sport.roundLabel); if(f) facts.push(f);
-
+  var pools = [
+    factFrequencyList(seasonMatches),
+    factBestDiffList(seasonMatches),
+    factMarginList(recentWindow, sport.roundLabel, true),
+    factMarginList(recentWindow, sport.roundLabel, false),
+    factNeverWornList(seasonMatches, currentRoundNum, sport.roundLabel)
+  ];
+  // Round-robin through the categories so the 5 cards stay varied rather
+  // than all coming from whichever single category has the deepest pool;
+  // a category only gets revisited for a second pick once every other
+  // category has had a turn, and a team+jersey already shown is skipped.
+  var idx = [0, 0, 0, 0, 0];
+  var facts = [], usedKeys = {}, progressed = true;
+  while(facts.length < 5 && progressed){
+    progressed = false;
+    for(var p = 0; p < pools.length && facts.length < 5; p++){
+      while(idx[p] < pools[p].length){
+        var cand = pools[p][idx[p]++];
+        var key = cand.team + '\u0001' + cand.jersey;
+        if(usedKeys[key]) continue;
+        usedKeys[key] = true;
+        facts.push(cand);
+        progressed = true;
+        break;
+      }
+    }
+  }
   facts.forEach(function(fact){ fact.img = mostRecentImg(seasonMatches, fact.team, fact.jersey); });
-  return {year:year, facts:facts.slice(0, 5)};
+  return {year:year, facts:facts};
 }
 function jerseyFactsHtml(sport){
   if(!sport.jerseyFacts){
