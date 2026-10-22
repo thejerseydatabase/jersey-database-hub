@@ -336,7 +336,7 @@ var SPORTS = [
     }
   },
   {
-    id:'epl', label:'Premier League', jerseyFacts:true, abbrevTeams:true, roundLabel:'MW', hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'epl', label:'Premier League', jerseyFacts:true, abbrevTeams:true, roundLabel:'MW', hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNLfZ7KInTXjT6u4SA1JdMpnsDDoz3bb_lwxFUjtIhYgEYpxsTsgJYZDckqJOp6Csd4m2izg6gjCPs/pub?output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[2]; }).map(function(r){
@@ -351,7 +351,7 @@ var SPORTS = [
     }
   },
   {
-    id:'football', label:'International Football', jerseyFacts:true, roundLabel:null, hasDraws:true, scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'football', label:'International Football', jerseyFacts:true, roundLabel:null, hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vSR8XOehKxF2_Ni-BVI1_-GBrWdgb49c52d85GXzdMRywYXemcjJbaCTOFx5Z22NAUr2k5nlDDwYcgJ/pub?gid=1954908423&single=true&output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[3]; }).map(function(r){
@@ -702,17 +702,50 @@ function buildAbbrevMap(teamNames){
     if(names.length === 1){ map[names[0]] = key; return; }
     var sameWord1 = names.every(function(n){ return parts[n].words[0] === parts[names[0]].words[0]; });
     if(sameWord1){
-      var extra = {}; names.forEach(function(n){ extra[n] = ''; });
-      var maxWords = Math.max.apply(null, names.map(function(n){ return parts[n].words.length; }));
-      for(var wordIdx = 1; wordIdx < maxWords; wordIdx++){
-        names.forEach(function(n){
+      // Sort shortest-named first. If word counts differ, a shorter name
+      // whose words are an exact prefix of a longer one (St George
+      // Illawarra / St George Illawarra Dragons) can never be separated
+      // from it by extending both in lockstep - it just runs out of words
+      // at the same moment the longer one gets another letter, growing
+      // needlessly. So when lengths differ, the shortest keeps the bare
+      // base and only the longer name(s) get extended.
+      var sorted = names.slice().sort(function(a,b){ return parts[a].words.length - parts[b].words.length; });
+      var allSameLength = parts[sorted[0]].words.length === parts[sorted[sorted.length - 1]].words.length;
+      var resolved = {}, active;
+      if(allSameLength){
+        active = sorted;
+      } else {
+        resolved[sorted[0]] = key;
+        active = sorted.slice(1);
+      }
+      // Extend only the names still colliding with each other, one word at
+      // a time - freezing any name the moment its code is unique instead
+      // of forcing the whole group to keep growing until every member
+      // differs (that over-extended names that resolved early, e.g. New
+      // England Patriots kept growing just because New York Jets/Giants
+      // hadn't separated yet).
+      var extra = {}; active.forEach(function(n){ extra[n] = ''; });
+      var maxWords = active.length ? Math.max.apply(null, active.map(function(n){ return parts[n].words.length; })) : 0;
+      for(var wordIdx = 1; active.length && wordIdx <= maxWords; wordIdx++){
+        active.forEach(function(n){
           var w = parts[n].words[wordIdx];
           if(w) extra[n] += w.charAt(0).toUpperCase();
         });
-        var vals = names.map(function(n){ return key + extra[n]; });
-        if(vals.every(function(v,i){ return vals.indexOf(v) === i; })) break;
+        var byCode = {};
+        active.forEach(function(n){
+          var code = key + extra[n];
+          if(!byCode[code]) byCode[code] = [];
+          byCode[code].push(n);
+        });
+        var stillActive = [];
+        Object.keys(byCode).forEach(function(code){
+          if(byCode[code].length === 1) resolved[byCode[code][0]] = code;
+          else stillActive = stillActive.concat(byCode[code]);
+        });
+        active = stillActive;
       }
-      names.forEach(function(n){ map[n] = key + extra[n]; });
+      active.forEach(function(n){ resolved[n] = key + extra[n]; });
+      names.forEach(function(n){ map[n] = resolved[n]; });
     } else {
       var resolved = false;
       for(var extraLen = 1; extraLen <= 10 && !resolved; extraLen++){
@@ -830,7 +863,8 @@ function factMarginList(windowMatches, roundLabel, wantWin, sport){
   list.sort(function(a,b){ return b.margin - a.margin; });
   return list;
 }
-function buildFactText(category, cand, rank){
+function buildFactText(category, cand, rank, sport){
+  var unit = sport.scoreUnit || 'pts';
   if(category === 'frequency') return 'Have worn ' + cand.jersey + ' jersey in ' + cand.count + ' of last ' + cand.total + ' games';
   if(category === 'bestDiff'){
     return (rank === 0 ? 'Best point differential of any jersey this season' : 'Strong point differential in ' + cand.jersey + ' jersey this season') +
@@ -843,7 +877,7 @@ function buildFactText(category, cand, rank){
   var wantWin = category === 'marginWin';
   var verb = wantWin ? 'win' : 'loss', prep = wantWin ? 'vs' : 'to';
   var lead = (rank === 0 ? 'Biggest recent ' : 'Recent ') + verb;
-  return lead + ' in ' + cand.jersey + ' jersey ' + prep + ' ' + cand.opponent + cand.roundPart + ': ' + cand.margin + ' pts';
+  return lead + ' in ' + cand.jersey + ' jersey ' + prep + ' ' + cand.opponent + cand.roundPart + ': ' + cand.margin + ' ' + unit;
 }
 function computeJerseyFacts(sport){
   var year = latestYear(MATCHES);
@@ -877,7 +911,7 @@ function computeJerseyFacts(sport){
         var key = cand.team + '\u0001' + cand.jersey;
         if(usedKeys[key]) continue;
         usedKeys[key] = true;
-        cand.text = buildFactText(pools[p].name, cand, rank);
+        cand.text = buildFactText(pools[p].name, cand, rank, sport);
         facts.push(cand);
         progressed = true;
         break;
