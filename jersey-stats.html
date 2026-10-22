@@ -336,7 +336,7 @@ var SPORTS = [
     }
   },
   {
-    id:'epl', label:'Premier League', jerseyFacts:true, abbrevTeams:true, roundLabel:'MW', hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'GF',against:'GA',diff:'GD'},
+    id:'epl', label:'EPL', jerseyFacts:true, abbrevTeams:true, roundLabel:'MW', hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'GF',against:'GA',diff:'GD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vQNLfZ7KInTXjT6u4SA1JdMpnsDDoz3bb_lwxFUjtIhYgEYpxsTsgJYZDckqJOp6Csd4m2izg6gjCPs/pub?output=csv',
     parseRows:function(rows){
       return rows.slice(1).filter(function(r){ return r[2]; }).map(function(r){
