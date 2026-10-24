@@ -381,22 +381,6 @@ var SPORTS = [
     }
   },
   {
-    id:'nba', label:'NBA', jerseyFacts:true, abbrevTeams:true, roundLabel:null, hasDraws:false, scoreLabels:{for:'PF',against:'PA',diff:'PD'},
-    csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT0TnZLGVhNSs4OR9PWB0DJCqsjxZQN8gJZFkqvyL7vryZKmxGpGaPaWBTQjUB1e9x4eBk9Wk7Ju6YY/pub?gid=716209826&single=true&output=csv',
-    parseRows:function(rows){
-      rows = skipBlankLead(rows);
-      return rows.slice(1).filter(function(r){ return r[9] && r[9] !== 'Home Team'; }).map(function(r){
-        var date = dateSimple(r[0]);
-        return {
-          date:date, year: seasonStartYear(date), round: null,
-          away:r[2], awayJersey:r[3]||null, awayImg:r[4]||null,
-          awayScore:num(r,5), homeScore:num(r,6),
-          homeJersey:r[7]||null, homeImg:r[8]||null, home:r[9]
-        };
-      }).filter(function(m){ return m.away && m.date; });
-    }
-  },
-  {
     id:'aleague', label:'A-League', jerseyFacts:true, abbrevTeams:true, roundLabel:'Rd', hasDraws:true, scoreUnit:'goals', scoreLabels:{for:'PF',against:'PA',diff:'PD'},
     csvUrl:'https://docs.google.com/spreadsheets/d/e/2PACX-1vT9jkZOVzEqfvMDJI9YzrIGaCf8LVgdY61tvyqWTDn23t_q3UjJHx33psSSX5TrtkQJAMpYRtZexbau/pub?gid=0&single=true&output=csv',
     parseRows:function(rows){
