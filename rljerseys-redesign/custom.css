@@ -1,0 +1,98 @@
+/* RL Jerseys homepage redesign - paste into Appearance > Customize > Additional CSS.
+   Everything is scoped to .rlj-home, so no other page is affected. */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
+/* ---------- Page frame (Twenty Twelve): wide, no sidebar, no page title, only on pages containing .rlj-home ---------- */
+body:has(.rlj-home) .site{max-width:1160px}
+body:has(.rlj-home) .site-content,
+body:has(.rlj-home) .site-content .entry-content{float:none;width:100%;margin:0}
+body:has(.rlj-home) #secondary,
+body:has(.rlj-home) .widget-area{display:none}
+body:has(.rlj-home) .entry-header,
+body:has(.rlj-home) .entry-meta,
+body:has(.rlj-home) .comments-area{display:none}
+body:has(.rlj-home) .site-content article{padding:0;border:0}
+
+/* ---------- Base ---------- */
+.rlj-home{--pitch:#0f3d2b;--pitch2:#14513a;--accent:#e9a21b;--ink:#0d2219;--muted:#55685d;--line:#d3ddd7;--bg:#eef2ef;
+  font-family:'Barlow',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:var(--ink);text-align:left}
+.rlj-home *{box-sizing:border-box}
+.rlj-home a{text-decoration:none;color:inherit}
+.rlj-home a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.rlj-home br,.rlj-home p:empty{display:none}
+
+/* ---------- Hero ---------- */
+.rlj-hero{background:var(--pitch);color:#f3f7f4;padding:36px 32px;margin:0 0 0;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;
+  background-image:repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.045) 79px 80px)}
+.rlj-hero-title{font:800 clamp(2.4rem,6vw,4.2rem)/.94 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;margin:0}
+.rlj-hero-title span{color:var(--accent)}
+.rlj-hero-sub{margin:12px 0 0;color:#c5d6cb;font-size:1.05rem}
+.rlj-hero-count{border-top:3px solid var(--accent);padding-top:8px;display:flex;align-items:baseline;gap:10px}
+.rlj-hero-count b{font:800 clamp(2.8rem,7vw,4.6rem)/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif}
+.rlj-hero-count small{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#c5d6cb;line-height:1.3}
+.rlj-redesign-notice{background:var(--accent);color:#1d1403;font-size:.92rem;font-weight:500;padding:9px 32px;margin:0 0 8px}
+
+/* ---------- Section titles ---------- */
+.rlj-section-title{font:700 1.7rem/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;
+  margin:40px 0 16px;display:flex;align-items:center;gap:14px}
+.rlj-section-title::after{content:"";flex:1;height:2px;background:var(--line)}
+.rlj-divider{display:none}
+
+/* ---------- Competitions ---------- */
+.rlj-comp-year-label{display:inline-block;background:var(--ink);color:#fff;font:800 1.2rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  letter-spacing:.06em;padding:2px 12px;margin:18px 0 10px}
+.rlj-comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.rlj-comp-grid a{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
+  font:700 1rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-align:center;
+  transition:transform .15s,border-color .15s,box-shadow .15s}
+.rlj-comp-grid a:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.rlj-comp-grid img{height:56px;width:auto;max-width:80%;object-fit:contain;margin:0;border:0;box-shadow:none}
+.rlj-more-link{margin-top:14px}
+.rlj-more-link a{font-weight:600;border-bottom:2px solid var(--accent)}
+
+/* ---------- Team / nation buttons ---------- */
+.rlj-browse-teams{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rlj-browse-teams a{display:block;background:var(--pitch);color:#f3f7f4;padding:22px;border-radius:6px;
+  font:700 1.35rem/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;transition:background .15s}
+.rlj-browse-teams a::after{content:" \2192";color:var(--accent)}
+.rlj-browse-teams a:hover{background:var(--pitch2)}
+
+/* ---------- Spreadsheets ---------- */
+.rlj-stats-grid{display:flex;flex-wrap:wrap;gap:10px}
+.rlj-stats-grid a{flex:1 1 130px;min-width:0;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:4px;
+  padding:12px 14px;font-weight:600;display:flex;justify-content:space-between;gap:8px;transition:background .15s,color .15s}
+.rlj-stats-grid a::after{content:"Sheet";color:var(--muted);font-weight:500;font-size:.8rem;align-self:center}
+.rlj-stats-grid a:hover{background:var(--ink);color:#fff}
+.rlj-stats-grid a:hover::after{color:#c5d6cb}
+.rlj-stats-grid a.rlj-soon{opacity:.55;pointer-events:none}
+.rlj-stats-grid a.rlj-soon::after{content:"Soon"}
+
+/* ---------- Latest additions ---------- */
+.rlj-comp-block{--c:#444b50;background:#fff;border:1px solid var(--line);border-radius:6px;margin:0 0 14px;overflow:hidden}
+.rlj-comp-block--nrl{--c:#0b5d3b}.rlj-comp-block--worldcup{--c:#b8860b}.rlj-comp-block--esl{--c:#d4262c}
+.rlj-comp-block--nrlw{--c:#7a2a8a}.rlj-comp-block--qld{--c:#7b1c2e}.rlj-comp-block--nsw{--c:#1c5fa8}
+.rlj-comp-block--intl{--c:#25324a}.rlj-comp-block--championship{--c:#1f6f78}.rlj-comp-block--refs{--c:#444b50}.rlj-comp-block--amateur{--c:#8a5a1c}
+.rlj-comp-label{background:var(--c);color:#fff;padding:10px 16px;font:700 1.15rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+
+/* WordPress gallery -> responsive grid (overrides the gallery's own inline widths and floats) */
+.rlj-home .gallery{display:grid !important;grid-template-columns:repeat(9,1fr);gap:8px;margin:0 !important;padding:12px}
+.rlj-home .gallery .gallery-item{float:none !important;width:auto !important;margin:0 !important;padding:0;min-width:0;background:var(--bg);border-radius:4px;
+  aspect-ratio:1;display:grid;place-items:center;transition:transform .15s}
+.rlj-home .gallery .gallery-item:hover{transform:scale(1.12);position:relative;z-index:2}
+.rlj-home .gallery .gallery-icon{margin:0;width:100%;height:100%;display:grid;place-items:center}
+.rlj-home .gallery .gallery-icon a{display:grid;place-items:center;width:100%;height:100%}
+.rlj-home .gallery .gallery-icon img{width:90%;height:90%;object-fit:contain;border:0 !important;margin:0;box-shadow:none}
+.rlj-home .gallery .gallery-caption{display:none}
+.rlj-home .gallery::before,.rlj-home .gallery::after{display:none}
+
+/* ---------- Responsive ---------- */
+@media (max-width:760px){
+  .rlj-home .gallery{grid-template-columns:repeat(6,1fr)}
+  .rlj-hero,.rlj-redesign-notice{padding-left:18px;padding-right:18px}
+}
+@media (max-width:520px){
+  .rlj-home .gallery{grid-template-columns:repeat(4,1fr)}
+  .rlj-browse-teams{grid-template-columns:1fr}
+  .rlj-comp-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.rlj-home *{transition:none !important}}
