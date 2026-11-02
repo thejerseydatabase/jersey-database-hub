@@ -5,7 +5,7 @@ body:has(.rlj-home) .site-content,body:has(.rlj-home) .site-content .entry-conte
 body:has(.rlj-home) #secondary,body:has(.rlj-home) .widget-area{display:none}
 body:has(.rlj-home) .entry-header,body:has(.rlj-home) .entry-meta,body:has(.rlj-home) .comments-area{display:none}
 body:has(.rlj-home) .site-content article{padding:0;border:0}
-.rlj-home{--pitch:#2a1257;--pitch2:#7c14e6;--accent:#2ee6c5;--ink:#1b1033;--muted:#5d5575;--line:#ddd8ea;--bg:#f1eff7;
+.rlj-home{--card:#ffffff;--pitch:#2a1257;--pitch2:#7c14e6;--accent:#2ee6c5;--ink:#1b1033;--muted:#5d5575;--line:#ddd8ea;--bg:#f1eff7;
   font-family:'Barlow',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:var(--ink);text-align:left}
 .rlj-home *{box-sizing:border-box}
 .rlj-home a{text-decoration:none;color:inherit}
@@ -27,7 +27,7 @@ body:has(.rlj-home) .site-content article{padding:0;border:0}
 .rlj-home .rlj-comp-year-label{display:inline-block;background:var(--ink);color:#fff;font:800 1.2rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;
   letter-spacing:.06em;padding:2px 12px;margin:18px 0 10px}
 .rlj-home .rlj-comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
-.rlj-home .rlj-comp-grid a{background:#fff;border:1px solid var(--line);border-radius:6px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
+.rlj-home .rlj-comp-grid a{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
   font:700 1rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-align:center;
   transition:transform .15s,border-color .15s,box-shadow .15s}
 .rlj-home .rlj-comp-grid a:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.14)}
@@ -40,14 +40,14 @@ body:has(.rlj-home) .site-content article{padding:0;border:0}
 .rlj-home .rlj-browse-teams a::after{content:" \2192";color:var(--accent)}
 .rlj-home .rlj-browse-teams a:hover{background:var(--pitch2)}
 .rlj-home .rlj-stats-grid{display:flex;flex-wrap:wrap;gap:10px}
-.rlj-home .rlj-stats-grid a{flex:1 1 130px;min-width:0;background:#fff;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:4px;
+.rlj-home .rlj-stats-grid a{flex:1 1 130px;min-width:0;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:4px;
   padding:12px 14px;font-weight:600;display:flex;justify-content:space-between;gap:8px;transition:background .15s,color .15s}
 .rlj-home .rlj-stats-grid a::after{content:"Sheet";color:var(--muted);font-weight:500;font-size:.8rem;align-self:center}
 .rlj-home .rlj-stats-grid a:hover{background:var(--ink);color:#fff}
 .rlj-home .rlj-stats-grid a:hover::after{color:#cfc4e8}
 .rlj-home .rlj-stats-grid a.rlj-soon{opacity:.55;pointer-events:none}
 .rlj-home .rlj-stats-grid a.rlj-soon::after{content:"Soon"}
-.rlj-home .rlj-comp-block{--c:#444b50;background:#fff;border:1px solid var(--line);border-radius:6px;margin:0 0 14px;overflow:hidden}
+.rlj-home .rlj-comp-block{--c:#444b50;background:var(--card);border:1px solid var(--line);border-radius:6px;margin:0 0 14px;overflow:hidden}
 .rlj-home .rlj-comp-block--nrl{--c:#0b5d3b}
 .rlj-home .rlj-comp-block--worldcup{--c:#b8860b}
 .rlj-home .rlj-comp-block--esl{--c:#d4262c}
@@ -96,7 +96,7 @@ body:has(.rlj-home) .site-content article{padding:0;border:0}
 .rlj-home .rlj-comp-year-label{display:inline-block !important;width:auto !important;text-align:left !important;background:var(--pitch) !important;color:#fff !important;border-radius:3px;padding:3px 14px !important;margin:16px 0 10px !important}
 .rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr)) !important;gap:8px !important}
 .rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{width:auto !important;min-width:0 !important;height:auto !important;margin:0 !important;float:none !important;
-  padding:12px 6px 10px !important;color:var(--ink) !important;opacity:1 !important;filter:none !important;background:#fff !important;font-size:.9rem !important;line-height:1.1 !important;gap:6px !important}
+  padding:12px 6px 10px !important;color:var(--ink) !important;opacity:1 !important;filter:none !important;background:var(--card) !important;font-size:.9rem !important;line-height:1.1 !important;gap:6px !important}
 .rlj-home .rlj-comp-grid a:hover{border-color:var(--pitch2) !important}
 .rlj-home .rlj-comp-grid img{opacity:1 !important;filter:none !important;height:48px !important;width:auto !important;max-width:80% !important}
 .rlj-home .rlj-more-link{text-align:left !important}
@@ -104,6 +104,32 @@ body:has(.rlj-home) .site-content article{padding:0;border:0}
   border-radius:0 !important;box-shadow:none !important;padding:0 0 2px !important;display:inline-block;font-weight:600}
 .rlj-home .rlj-browse-teams a,.rlj-home .rlj-browse-teams a:link,.rlj-home .rlj-browse-teams a:visited{color:#fff !important;background:var(--pitch) !important}
 .rlj-home .rlj-browse-teams a:hover{background:var(--pitch2) !important}
-.rlj-home .rlj-stats-grid a,.rlj-home .rlj-stats-grid a:link,.rlj-home .rlj-stats-grid a:visited{color:var(--ink) !important;background:#fff !important}
+.rlj-home .rlj-stats-grid a,.rlj-home .rlj-stats-grid a:link,.rlj-home .rlj-stats-grid a:visited{color:var(--ink) !important;background:var(--card) !important}
 .rlj-home .rlj-stats-grid a:hover{background:var(--pitch) !important;color:#fff !important}
 .rlj-home .rlj-comp-label{text-align:left !important;padding:10px 16px !important}
+
+/* ---- Text-only competition tiles (no logos) ---- */
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)) !important}
+.rlj-home .rlj-comp-grid img{display:none !important}
+.rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{flex-direction:row !important;justify-content:space-between !important;align-items:center !important;text-align:left !important;
+  padding:13px 14px !important;border-left:5px solid var(--accent) !important;border-radius:4px !important;font-size:1.05rem !important}
+.rlj-home .rlj-comp-grid a::after{content:"\2192";color:var(--pitch2);font-weight:700}
+.rlj-home .rlj-comp-grid a:hover{background:var(--pitch) !important;color:#fff !important;transform:none}
+.rlj-home .rlj-comp-grid a:hover::after{color:var(--accent)}
+
+/* ---- WP Dark Mode plugin (adds .wp-dark-mode-active to <html>) ---- */
+html.wp-dark-mode-active .rlj-home{--card:#241f3d;--ink:#f1edfb;--muted:#b3a9d0;--line:#3f3569;--bg:#1a1630;--pitch2:#a46bff}
+html.wp-dark-mode-active .rlj-home .rlj-section-title,
+html.wp-dark-mode-active .rlj-home .rlj-more-link a,
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a{color:#f1edfb !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-comp-block{background:#241f3d !important;border-color:#3f3569 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a:hover,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a:hover{background:#3a2a73 !important;color:#fff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-year-label{background:var(--accent) !important;color:#08241f !important}
+html.wp-dark-mode-active .rlj-home .rlj-browse-teams a{background:#3a2a73 !important}
+html.wp-dark-mode-active .rlj-home .rlj-browse-teams a:hover{background:#5b3bb5 !important}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-item{background:#312a52 !important}
+html.wp-dark-mode-active .rlj-home .rlj-section-title::after{background:#a46bff !important;opacity:.4}

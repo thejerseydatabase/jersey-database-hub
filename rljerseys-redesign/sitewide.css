@@ -1,0 +1,42 @@
+/* RL Jerseys sitewide theme (purple + mint). Paste BELOW custom.css in Additional CSS.
+   Affects every page, so try it with Customize > preview before publishing. */
+
+body{background:#f1eff7}
+a{color:#5a189a}
+a:hover,a:focus{color:#0d8f7a}
+.entry-content a{color:#5a189a}
+
+/* ---- Header ---- */
+.site-title{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.site-title a{color:#2a1257}
+.site-description{color:#5d5575}
+.entry-title,.entry-title a{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#2a1257}
+.entry-header .entry-title{border-bottom:3px solid #2ee6c5;display:inline-block;padding-bottom:4px}
+
+/* ---- Menu: replaces the My Sticky Bar plugin (sticks to the top as you scroll) ---- */
+#masthead{display:contents}
+.site-header hgroup{padding:24px 0 10px}
+#site-navigation{position:sticky;top:0;z-index:1000;margin:0 0 20px;background:#3b1580;text-align:left}
+.admin-bar #site-navigation{top:32px}
+#site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{border:0;display:flex !important;flex-wrap:wrap;width:100%;margin:0;padding:0 8px}
+#site-navigation li{margin:0;font-size:13px}
+#site-navigation li a{color:#fff;padding:14px 16px;font:600 13px/1.2 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;display:block}
+#site-navigation li:hover>a,#site-navigation li a:focus{background:#2ee6c5;color:#08241f}
+#site-navigation .current-menu-item>a,#site-navigation .current-menu-ancestor>a,#site-navigation .current_page_item>a{background:#2ee6c5;color:#08241f}
+#site-navigation ul ul{background:#2a1257;border:0;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+#site-navigation ul ul li a{color:#fff}
+#site-navigation .menu-toggle{background:#3b1580;color:#fff;border:0;border-radius:0;padding:12px 16px;text-shadow:none;box-shadow:none;font:600 13px 'Barlow',Arial,sans-serif;text-transform:uppercase}
+@media (max-width:599px){#site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{display:block !important}}
+
+/* ---- Tabs on jersey pages (selectors for the common tab plugins; send me a tab's HTML if yours is not styled) ---- */
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a,.tabs li.active a,.nav-tabs>li.active>a,.responsive-tabs__list__item--active,.tab-title.active,.tabs-nav li.active,.tabs-nav .active a,.resp-tab-active{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
+.ui-tabs .ui-tabs-nav li a,.tabs li a,.nav-tabs>li>a,.tabs-nav li a,.resp-tab-item{color:#2a1257}
+
+/* ---- Dark mode (WP Dark Mode plugin) ---- */
+html.wp-dark-mode-active a,html.wp-dark-mode-active .entry-content a{color:#b58cff}
+html.wp-dark-mode-active a:hover{color:#2ee6c5}
+html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
+html.wp-dark-mode-active .site-description{color:#b3a9d0}
+html.wp-dark-mode-active #site-navigation{background:#24104d}
+html.wp-dark-mode-active #site-navigation li a{color:#fff}
+html.wp-dark-mode-active #site-navigation li:hover>a,html.wp-dark-mode-active #site-navigation .current-menu-item>a{color:#08241f}
