@@ -197,3 +197,10 @@ html.wp-dark-mode-active .rlj-home .rlj-comp-block--intl .rlj-comp-label{border-
 html.wp-dark-mode-active .rlj-home .rlj-comp-block--championship .rlj-comp-label{border-left-color:#2ee6c5 !important}
 html.wp-dark-mode-active .rlj-home .rlj-comp-block--refs .rlj-comp-label{border-left-color:#c4ccd4 !important}
 html.wp-dark-mode-active .rlj-home .rlj-comp-block--amateur .rlj-comp-label{border-left-color:#ffae4d !important}
+
+/* ---- Stats note link: solid colour; darker SOON labels ---- */
+.rlj-home .rlj-stats-note a,.rlj-home .rlj-stats-note a:link,.rlj-home .rlj-stats-note a:visited,.rlj-home .rlj-stats-note a:hover{color:#5a189a !important;opacity:1 !important;font-weight:700;text-decoration:underline;text-decoration-color:#2ee6c5;text-decoration-thickness:2px;text-underline-offset:3px}
+html.wp-dark-mode-active .rlj-home .rlj-stats-note a,html.wp-dark-mode-active .rlj-home .rlj-stats-note a:link,html.wp-dark-mode-active .rlj-home .rlj-stats-note a:visited{color:#c9a8ff !important}
+.rlj-home .rlj-comp-grid a.rlj-soon::after{color:#3d3560 !important;font-weight:700;font-size:.85rem}
+.rlj-home .rlj-comp-grid a.rlj-soon,.rlj-home .rlj-comp-grid a.rlj-soon:link,.rlj-home .rlj-comp-grid a.rlj-soon:visited{opacity:.7 !important;color:#3d3560 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon::after,html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon{color:#d8d0f0 !important}
