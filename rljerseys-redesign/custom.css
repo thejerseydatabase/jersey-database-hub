@@ -180,3 +180,20 @@ html.wp-dark-mode-active .rlj-home .rlj-stats-note{background:#241f3d !important
 /* ---- Dark mode: one consistent colour for every Latest Additions header ---- */
 html.wp-dark-mode-active .rlj-home .rlj-comp-block{border:1px solid #3f3569 !important;border-left:1px solid #3f3569 !important;background:#241f3d !important}
 html.wp-dark-mode-active .rlj-home .rlj-comp-block .rlj-comp-label{background:#3a2a73 !important;color:#fff !important;border:0 !important;border-bottom:2px solid #2ee6c5 !important}
+
+/* ---- Header banner image: stretch to the same width as the purple hero ---- */
+body:has(.rlj-home) .header-image,body:has(.rlj-home) .site-header img{display:block;width:100% !important;max-width:100% !important;height:auto !important;margin:0 !important;border-radius:4px 4px 0 0}
+body:has(.rlj-home) .rlj-hero{margin-top:0}
+
+/* ---- Dark mode: Latest Additions headers with a bright competition colour edge ---- */
+html.wp-dark-mode-active .rlj-home .rlj-comp-block .rlj-comp-label{background:#4b30a0 !important;font-size:1.6rem !important;padding:12px 18px !important;border-left:12px solid #2ee6c5 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nrl .rlj-comp-label{border-left-color:#35d27f !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--worldcup .rlj-comp-label{border-left-color:#ffc83a !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--esl .rlj-comp-label{border-left-color:#ff5c66 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nrlw .rlj-comp-label{border-left-color:#d684ff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--qld .rlj-comp-label{border-left-color:#ff7a9c !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nsw .rlj-comp-label{border-left-color:#4eaaff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--intl .rlj-comp-label{border-left-color:#97aaff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--championship .rlj-comp-label{border-left-color:#2ee6c5 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--refs .rlj-comp-label{border-left-color:#c4ccd4 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--amateur .rlj-comp-label{border-left-color:#ffae4d !important}
