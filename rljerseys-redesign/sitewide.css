@@ -34,3 +34,6 @@ html.wp-dark-mode-active a:hover{color:#2ee6c5}
 html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
 html.wp-dark-mode-active .site-description{color:#b3a9d0}
 html.wp-dark-mode-active 
+/* ---- Links inside the My Sticky Bar (see sticky-bar-text.html) ---- */
+a.rlj-bar-link,a.rlj-bar-link:link,a.rlj-bar-link:visited{color:#fff !important;display:inline-block;padding:6px 14px;text-decoration:none !important;border-radius:3px}
+a.rlj-bar-link:hover{background:#2ee6c5;color:#08241f !important}
