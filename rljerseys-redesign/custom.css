@@ -133,3 +133,21 @@ html.wp-dark-mode-active .rlj-home .rlj-browse-teams a{background:#3a2a73 !impor
 html.wp-dark-mode-active .rlj-home .rlj-browse-teams a:hover{background:#5b3bb5 !important}
 html.wp-dark-mode-active .rlj-home .gallery .gallery-item{background:#312a52 !important}
 html.wp-dark-mode-active .rlj-home .rlj-section-title::after{background:#a46bff !important;opacity:.4}
+
+/* ---- Bigger, clearer text ---- */
+.rlj-home{font-size:17px}
+.rlj-home .rlj-hero-sub{font-size:1.25rem;color:#e6defa}
+.rlj-home .rlj-hero-count small{font-size:.95rem;color:#e6defa}
+.rlj-home .rlj-redesign-notice{font-size:1rem;font-weight:600}
+.rlj-home .rlj-section-title{font-size:2.1rem !important}
+.rlj-home .rlj-comp-year-label{font-size:1.4rem !important}
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr)) !important}
+.rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{font-size:1.35rem !important;font-weight:700 !important;letter-spacing:.04em !important;padding:15px 16px !important}
+.rlj-home .rlj-more-link a{font-size:1.15rem}
+.rlj-home .rlj-browse-teams a{font-size:1.6rem}
+.rlj-home .rlj-stats-grid a{font-size:1.2rem;padding:15px 16px}
+.rlj-home .rlj-stats-grid a::after{font-size:.9rem}
+.rlj-home .rlj-comp-label{font-size:1.4rem !important}
+html.wp-dark-mode-active .rlj-home .rlj-hero{background-color:#3a1f7a}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,html.wp-dark-mode-active .rlj-home .rlj-stats-grid a{color:#fff !important;background:#2e2752 !important}
+html.wp-dark-mode-active .rlj-home .rlj-section-title{color:#fff !important}
