@@ -17,16 +17,20 @@ a:hover,a:focus{color:#0d8f7a}
 .ui-tabs .ui-tabs-nav li.ui-tabs-active a,.tabs li.active a,.nav-tabs>li.active>a,.responsive-tabs__list__item--active,.tab-title.active,.tabs-nav li.active,.tabs-nav .active a,.resp-tab-active{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
 .ui-tabs .ui-tabs-nav li a,.tabs li a,.nav-tabs>li>a,.tabs-nav li a,.resp-tab-item{color:#2a1257}
 
-.wpsm_nav-tabs>li>a{font-family:'Barlow','Arial',sans-serif;font-weight:600;color:#2a1257 !important}
-.wpsm_nav-tabs>li.active>a,.wpsm_nav-tabs>li.active>a:hover,.wpsm_nav-tabs>li.active>a:focus{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
-.wpsm_nav-tabs>li>a:hover{background:#2ee6c5 !important;color:#08241f !important;border-color:#2ee6c5 !important}
-.wpsm_tab-content,.wpsm_nav-tabs{border-color:#cfc4e8 !important}
+
+
+/* ---- Tabs Responsive plugin (the :not(#x) trick lets these beat the plugin's own per-tab-set ID rules) ---- */
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#ece8f6 !important;background-color:#ece8f6 !important;color:#2a1257 !important;border:1px solid #cfc4e8 !important;
+  font-family:'Barlow',Arial,sans-serif !important;font-size:15px !important;font-weight:600 !important;letter-spacing:.03em}
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a:hover{background:#2ee6c5 !important;background-color:#2ee6c5 !important;color:#08241f !important;border-color:#2ee6c5 !important}
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a,[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:hover,[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:focus{background:#3b1580 !important;background-color:#3b1580 !important;color:#fff !important;border:1px solid #3b1580 !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#241f3d !important;background-color:#241f3d !important;color:#f1edfb !important;border-color:#3f3569 !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a:hover{background:#2ee6c5 !important;background-color:#2ee6c5 !important;color:#08241f !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a,html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:hover{background:#5b3bb5 !important;background-color:#5b3bb5 !important;color:#fff !important;border-color:#5b3bb5 !important}
 
 /* ---- Dark mode (WP Dark Mode plugin) ---- */
 html.wp-dark-mode-active a,html.wp-dark-mode-active .entry-content a{color:#b58cff}
 html.wp-dark-mode-active a:hover{color:#2ee6c5}
 html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
 html.wp-dark-mode-active .site-description{color:#b3a9d0}
-html.wp-dark-mode-active .wpsm_nav-tabs>li>a{color:#f1edfb !important;background:#241f3d !important;border-color:#3f3569 !important}
-html.wp-dark-mode-active .wpsm_nav-tabs>li.active>a{background:#5b3bb5 !important;color:#fff !important}
-html.wp-dark-mode-active .wpsm_tab-content{background:#1a1630 !important;border-color:#3f3569 !important}
+html.wp-dark-mode-active 
