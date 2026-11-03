@@ -1,16 +1,29 @@
-/* OPTIONAL: makes the theme's own menu purple and keeps it at the top of the screen while scrolling.
-   Use this instead of the My Sticky Bar plugin. Paste below sitewide.css. If the header looks wrong, delete this block. */
-#masthead{display:contents}
-.site-header hgroup{padding:24px 0 10px}
-#site-navigation{position:sticky;top:0;z-index:1000;margin:0 0 20px;background:#3b1580;text-align:left}
-.admin-bar #site-navigation{top:32px}
-#site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{border:0;display:flex !important;flex-wrap:wrap;width:100%;margin:0;padding:0 8px}
-#site-navigation li{margin:0;font-size:13px}
-#site-navigation li a{color:#fff;padding:14px 16px;font:600 13px/1.2 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;display:block}
+/* OPTIONAL: purple theme menu. On desktop it sticks to the top while scrolling.
+   On phones it is a normal "MENU" button that opens when tapped and scrolls away with the page. */
+
+/* shared look */
+#site-navigation{background:#3b1580;text-align:left;margin:0 0 20px}
+#site-navigation li a,#site-navigation li a:link,#site-navigation li a:visited{color:#fff;font:600 14px/1.2 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;display:block}
 #site-navigation li:hover>a,#site-navigation li a:focus{background:#2ee6c5;color:#08241f}
 #site-navigation .current-menu-item>a,#site-navigation .current-menu-ancestor>a,#site-navigation .current_page_item>a{background:#2ee6c5;color:#08241f}
 #site-navigation ul ul{background:#2a1257;border:0;box-shadow:0 8px 20px rgba(0,0,0,.25)}
-#site-navigation ul ul li a{color:#fff}
-#site-navigation .menu-toggle{background:#3b1580;color:#fff;border:0;border-radius:0;padding:12px 16px;text-shadow:none;box-shadow:none;font:600 13px 'Barlow',Arial,sans-serif;text-transform:uppercase}
-@media (max-width:599px){#site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{display:block !important}}
-html.wp-dark-mode-active #site-navigation{background:#24104d}
+#site-navigation .menu-toggle{background:#3b1580;color:#fff;border:0;border-radius:0;padding:14px 16px;text-shadow:none;box-shadow:none;font:600 14px 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;width:100%;text-align:left}
+html.wp-dark-mode-active #site-navigation,html.wp-dark-mode-active #site-navigation .menu-toggle{background:#24104d}
+
+/* desktop and tablet only: sticky, one row */
+@media (min-width:600px){
+  #masthead{display:contents}
+  .site-header hgroup{padding:24px 0 10px}
+  #site-navigation{position:sticky;top:0;z-index:1000}
+  .admin-bar #site-navigation{top:32px}
+  #site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{border:0;display:flex !important;flex-wrap:wrap;width:100%;margin:0;padding:0 8px}
+  #site-navigation li{margin:0}
+  #site-navigation li a{padding:14px 16px}
+}
+
+/* phones: not sticky, tap MENU to open */
+@media (max-width:599px){
+  #site-navigation{position:static}
+  #site-navigation li{margin:0;border-top:1px solid rgba(255,255,255,.15)}
+  #site-navigation li a{padding:14px 18px}
+}
