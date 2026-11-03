@@ -1,6 +1,6 @@
 /* RL Jerseys homepage redesign. Paste BELOW your existing Additional CSS.
    Every rule is scoped to .rlj-home, so pages without that wrapper are unchanged. */
-body:has(.rlj-home) .site{max-width:1160px}
+body .site{max-width:1160px}
 body:has(.rlj-home) .site-content,body:has(.rlj-home) .site-content .entry-content{float:none;width:100%;margin:0}
 body:has(.rlj-home) #secondary,body:has(.rlj-home) .widget-area{display:none}
 body:has(.rlj-home) .entry-header,body:has(.rlj-home) .entry-meta,body:has(.rlj-home) .comments-area{display:none}
@@ -182,7 +182,7 @@ html.wp-dark-mode-active .rlj-home .rlj-comp-block{border:1px solid #3f3569 !imp
 html.wp-dark-mode-active .rlj-home .rlj-comp-block .rlj-comp-label{background:#3a2a73 !important;color:#fff !important;border:0 !important;border-bottom:2px solid #2ee6c5 !important}
 
 /* ---- Header banner image: stretch to the same width as the purple hero ---- */
-body:has(.rlj-home) .header-image,body:has(.rlj-home) .site-header img{display:block;width:100% !important;max-width:100% !important;height:auto !important;margin:0 !important;border-radius:4px 4px 0 0}
+.site-header .header-image,.site-header img{display:block;width:100% !important;max-width:100% !important;height:auto !important;margin:0 !important;border-radius:4px 4px 0 0}
 body:has(.rlj-home) .rlj-hero{margin-top:0}
 
 /* ---- Dark mode: Latest Additions headers with a bright competition colour edge ---- */
