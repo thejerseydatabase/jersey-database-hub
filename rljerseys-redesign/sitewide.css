@@ -42,3 +42,44 @@ a.rlj-bar-link:hover{background:#2ee6c5;color:#08241f !important}
 .site-content article,.entry-content{-webkit-hyphens:manual;-moz-hyphens:manual;hyphens:manual;word-wrap:normal;overflow-wrap:normal}
 .gallery-caption,.wp-caption-text{font-size:13px;line-height:1.3;-webkit-hyphens:none;hyphens:none;word-break:normal;overflow-wrap:break-word}
 @media (max-width:599px){.gallery-caption,.wp-caption-text{font-size:12px}}
+
+/* =====================================================================
+   Content pages (club lists, team pages). Not applied to the new homepage.
+   ===================================================================== */
+body:not(:has(.rlj-home)) .entry-content a,
+body:not(:has(.rlj-home)) .entry-content a:link,
+body:not(:has(.rlj-home)) .entry-content a:visited{color:#5a189a !important;text-decoration-color:#2ee6c5;text-decoration-thickness:2px;text-underline-offset:3px}
+body:not(:has(.rlj-home)) .entry-content a span{color:inherit !important}
+body:not(:has(.rlj-home)) .entry-content a:hover{color:#0d8f7a !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:link,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:visited{color:#c9a8ff !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:hover{color:#2ee6c5 !important}
+
+/* Club lists: a paragraph with 4+ links becomes a row of chips; the "|" separators disappear */
+.entry-content p:has(> a ~ a ~ a ~ a){font-size:0;line-height:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0 22px}
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a,
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:link,
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:visited{font:500 15px/1.2 'Barlow',Arial,sans-serif;display:inline-block;padding:8px 14px;background:#ece8f6;border:1px solid #d9d0ee;border-radius:999px;text-decoration:none !important;color:#2a1257 !important;transition:background .15s,transform .15s}
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important;transform:translateY(-2px)}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:link,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:visited{background:#2e2752;border-color:#3f3569;color:#e8e1f8 !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important}
+
+/* Group headings such as "Australian ARL/NRL Clubs" (bold + underlined text) */
+.entry-content p > strong > u,.entry-content p > u > strong{display:inline-block;font:700 1.55rem/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;color:#2a1257;border-bottom:3px solid #2ee6c5;padding-bottom:4px;margin-top:8px}
+html.wp-dark-mode-active .entry-content p > strong > u,html.wp-dark-mode-active .entry-content p > u > strong{color:#f1edfb}
+.entry-content hr{border:0;height:2px;background:linear-gradient(90deg,transparent,#cfc4e8,transparent);margin:28px 0}
+html.wp-dark-mode-active .entry-content hr{background:linear-gradient(90deg,transparent,#3f3569,transparent)}
+
+/* Team pages: tab panel text, year lines, jersey frames */
+.wpsm_tab-content{font-family:'Barlow',Arial,sans-serif;font-size:16px;color:#1b1033;padding:6px 10px}
+.wpsm_tab-content p{font-size:17px;margin:20px 0 8px}
+.wpsm_tab-content p strong{color:#3b1580;font:700 1.3em/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.04em}
+.wpsm_tab-content h2,.wpsm_tab-content h3,.wpsm_tab-content h4{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#3b1580}
+body:not(:has(.rlj-home)) .entry-content .gallery-icon img{border:1px solid #d9d0ee !important;border-radius:6px;box-shadow:0 2px 6px rgba(42,18,87,.12) !important;transition:transform .15s}
+body:not(:has(.rlj-home)) .entry-content .gallery-icon a:hover img{transform:translateY(-3px)}
+html.wp-dark-mode-active .wpsm_tab-content{color:#f1edfb}
+html.wp-dark-mode-active .wpsm_tab-content p strong,html.wp-dark-mode-active .wpsm_tab-content h2,html.wp-dark-mode-active .wpsm_tab-content h3,html.wp-dark-mode-active .wpsm_tab-content h4{color:#2ee6c5}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content .gallery-icon img{border-color:#3f3569 !important}
