@@ -13,12 +13,6 @@ a:hover,a:focus{color:#0d8f7a}
 .entry-title,.entry-title a{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#2a1257}
 .entry-header .entry-title{border-bottom:3px solid #2ee6c5;display:inline-block;padding-bottom:4px}
 
-/* ---- Tabs on jersey pages (Tabs Responsive plugin, plus other common tab plugins) ---- */
-.ui-tabs .ui-tabs-nav li.ui-tabs-active a,.tabs li.active a,.nav-tabs>li.active>a,.responsive-tabs__list__item--active,.tab-title.active,.tabs-nav li.active,.tabs-nav .active a,.resp-tab-active{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
-.ui-tabs .ui-tabs-nav li a,.tabs li a,.nav-tabs>li>a,.tabs-nav li a,.resp-tab-item{color:#2a1257}
-
-
-
 /* ---- Tabs Responsive plugin (the :not(#x) trick lets these beat the plugin's own per-tab-set ID rules) ---- */
 [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#ece8f6 !important;background-color:#ece8f6 !important;color:#2a1257 !important;border:1px solid #cfc4e8 !important;
   font-family:'Barlow',Arial,sans-serif !important;font-size:15px !important;font-weight:600 !important;letter-spacing:.03em}
@@ -33,10 +27,6 @@ html.wp-dark-mode-active a,html.wp-dark-mode-active .entry-content a{color:#b58c
 html.wp-dark-mode-active a:hover{color:#2ee6c5}
 html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
 html.wp-dark-mode-active .site-description{color:#b3a9d0}
-html.wp-dark-mode-active 
-/* ---- Links inside the My Sticky Bar (see sticky-bar-text.html) ---- */
-a.rlj-bar-link,a.rlj-bar-link:link,a.rlj-bar-link:visited{color:#fff !important;display:inline-block;padding:6px 14px;text-decoration:none !important;border-radius:3px}
-a.rlj-bar-link:hover{background:#2ee6c5;color:#08241f !important}
 
 /* ---- Jersey captions: stop words breaking mid-word on phones ("Alternat/e") ---- */
 .site-content article,.entry-content{-webkit-hyphens:manual;-moz-hyphens:manual;hyphens:manual;word-wrap:normal;overflow-wrap:normal}

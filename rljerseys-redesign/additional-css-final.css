@@ -1,11 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap');
+
 /* ================================================================
-   RL JERSEYS - NEW DESIGN (one file)
-   Paste this block directly BELOW your old CSS (the section that ends with
-   the "BANNER & TITLE CENTERING FIX" rule). Do not paste anything else twice.
-   Order: 1 New homepage  2 Whole-site theme  3 Menu
+   RL JERSEYS - COMPLETE ADDITIONAL CSS (replace everything with this file)
+   1 Small rules kept from the old CSS   2 New homepage   3 Whole-site theme   4 Menu
    ================================================================ */
 
-/* ===== 1. NEW HOMEPAGE (only affects pages wrapped in .rlj-home) ===== */
+/* ===== 1. KEPT FROM THE OLD CSS (used by other pages) ===== */
+.home .entry-content,.home .site-content{padding-top:0 !important;margin-top:0 !important}
+.rlj-wrap{padding-top:0 !important;margin-top:0 !important}
+.tab-content,div[id*="wpsm_tab_"]{border:1px solid #d9d0ee !important;padding:16px !important}
+@media (max-width:900px){
+  .rlj-dashboard-container{grid-template-columns:1fr !important}
+  .rlj-sidebar{position:static !important}
+}
+
+/* ===== 2. NEW HOMEPAGE (only affects pages wrapped in .rlj-home) ===== */
 body:has(.rlj-home) .site{max-width:1160px}
 body:has(.rlj-home) .site-content,body:has(.rlj-home) .site-content .entry-content{float:none;width:100%;margin:0}
 body:has(.rlj-home) #secondary,body:has(.rlj-home) .widget-area{display:none}
@@ -233,7 +242,7 @@ html.wp-dark-mode-active .rlj-home .gallery .gallery-caption{color:#e8e1f8 !impo
 @media (max-width:520px){.rlj-home .gallery .gallery-caption{font-size:.72rem !important}}
 
 
-/* ===== 2. WHOLE-SITE THEME ===== */
+/* ===== 3. WHOLE-SITE THEME ===== */
 
 body{background:#f1eff7}
 a{color:#5a189a}
@@ -246,12 +255,6 @@ a:hover,a:focus{color:#0d8f7a}
 .site-description{color:#5d5575}
 .entry-title,.entry-title a{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#2a1257}
 .entry-header .entry-title{border-bottom:3px solid #2ee6c5;display:inline-block;padding-bottom:4px}
-
-/* ---- Tabs on jersey pages (Tabs Responsive plugin, plus other common tab plugins) ---- */
-.ui-tabs .ui-tabs-nav li.ui-tabs-active a,.tabs li.active a,.nav-tabs>li.active>a,.responsive-tabs__list__item--active,.tab-title.active,.tabs-nav li.active,.tabs-nav .active a,.resp-tab-active{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
-.ui-tabs .ui-tabs-nav li a,.tabs li a,.nav-tabs>li>a,.tabs-nav li a,.resp-tab-item{color:#2a1257}
-
-
 
 /* ---- Tabs Responsive plugin (the :not(#x) trick lets these beat the plugin's own per-tab-set ID rules) ---- */
 [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#ece8f6 !important;background-color:#ece8f6 !important;color:#2a1257 !important;border:1px solid #cfc4e8 !important;
@@ -267,10 +270,6 @@ html.wp-dark-mode-active a,html.wp-dark-mode-active .entry-content a{color:#b58c
 html.wp-dark-mode-active a:hover{color:#2ee6c5}
 html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
 html.wp-dark-mode-active .site-description{color:#b3a9d0}
-html.wp-dark-mode-active 
-/* ---- Links inside the My Sticky Bar (see sticky-bar-text.html) ---- */
-a.rlj-bar-link,a.rlj-bar-link:link,a.rlj-bar-link:visited{color:#fff !important;display:inline-block;padding:6px 14px;text-decoration:none !important;border-radius:3px}
-a.rlj-bar-link:hover{background:#2ee6c5;color:#08241f !important}
 
 /* ---- Jersey captions: stop words breaking mid-word on phones ("Alternat/e") ---- */
 .site-content article,.entry-content{-webkit-hyphens:manual;-moz-hyphens:manual;hyphens:manual;word-wrap:normal;overflow-wrap:normal}
@@ -331,7 +330,7 @@ html.wp-dark-mode-active .rlj-home .rlj-comp-year-label{background:#2ee6c5 !impo
 html.wp-dark-mode-active .entry-header .entry-title,html.wp-dark-mode-active .entry-content p > u,html.wp-dark-mode-active .entry-content [style*="underline"]{border-bottom-color:#2ee6c5 !important}
 
 
-/* ===== 3. MENU (purple, sticky on desktop, tap-to-open on phones) ===== */
+/* ===== 4. MENU (purple, sticky on desktop, tap-to-open on phones) ===== */
 
 /* shared look */
 #site-navigation{background:#3b1580;text-align:left;margin:0 0 20px}
