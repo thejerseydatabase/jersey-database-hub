@@ -323,6 +323,13 @@ html.wp-dark-mode-active .wpsm_tab-content{color:#f1edfb}
 html.wp-dark-mode-active .wpsm_tab-content p strong,html.wp-dark-mode-active .wpsm_tab-content h2,html.wp-dark-mode-active .wpsm_tab-content h3,html.wp-dark-mode-active .wpsm_tab-content h4{color:#2ee6c5}
 html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content .gallery-icon img{border-color:#3f3569 !important}
 
+/* ---- Dark mode: stop the plugin dimming the banner and mint highlights ---- */
+html.wp-dark-mode-active .header-image,html.wp-dark-mode-active .site-header img,html.wp-dark-mode-active .site-header .header-image{filter:brightness(1.12) saturate(1.15) contrast(1.03) !important;opacity:1 !important}
+html.wp-dark-mode-active #site-navigation li:hover>a,html.wp-dark-mode-active #site-navigation li a:focus,html.wp-dark-mode-active #site-navigation .current-menu-item>a,html.wp-dark-mode-active #site-navigation .current-menu-ancestor>a,html.wp-dark-mode-active #site-navigation .current_page_item>a{background:#2ee6c5 !important;color:#08241f !important}
+html.wp-dark-mode-active .rlj-home .rlj-redesign-notice{background:#2ee6c5 !important;color:#08241f !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-year-label{background:#2ee6c5 !important;color:#08241f !important}
+html.wp-dark-mode-active .entry-header .entry-title,html.wp-dark-mode-active .entry-content p > u,html.wp-dark-mode-active .entry-content [style*="underline"]{border-bottom-color:#2ee6c5 !important}
+
 
 /* ===== 3. MENU (purple, sticky on desktop, tap-to-open on phones) ===== */
 
