@@ -204,3 +204,24 @@ html.wp-dark-mode-active .rlj-home .rlj-stats-note a,html.wp-dark-mode-active .r
 .rlj-home .rlj-comp-grid a.rlj-soon::after{color:#3d3560 !important;font-weight:700;font-size:.85rem}
 .rlj-home .rlj-comp-grid a.rlj-soon,.rlj-home .rlj-comp-grid a.rlj-soon:link,.rlj-home .rlj-comp-grid a.rlj-soon:visited{opacity:.7 !important;color:#3d3560 !important}
 html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon::after,html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon{color:#d8d0f0 !important}
+
+/* ---- Smaller purple hero ---- */
+.rlj-home .rlj-hero{padding:20px 28px;gap:12px 32px;align-items:center}
+.rlj-home .rlj-hero-title{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1}
+.rlj-home .rlj-hero-sub{font-size:1.05rem;margin-top:6px}
+.rlj-home .rlj-hero-count{padding-top:6px}
+.rlj-home .rlj-hero-count b{font-size:clamp(2.2rem,5vw,3.2rem)}
+.rlj-home .rlj-hero-count small{font-size:.8rem}
+.rlj-home .rlj-redesign-notice{padding:7px 28px;font-size:.95rem}
+@media (max-width:760px){.rlj-home .rlj-hero{padding:18px}}
+
+/* ---- Jersey names back under the pictures (Latest Additions) ---- */
+.rlj-home .gallery{align-items:start}
+.rlj-home .gallery .gallery-item{aspect-ratio:auto !important;display:flex !important;flex-direction:column;background:transparent !important;place-items:initial}
+.rlj-home .gallery .gallery-icon{aspect-ratio:1;width:100%;height:auto;background:var(--bg);border-radius:4px}
+.rlj-home .gallery .gallery-caption{display:block !important;margin:6px 0 0 !important;padding:0 2px;text-align:center;font-size:.8rem !important;line-height:1.2;font-weight:500;font-style:normal;color:var(--ink) !important;
+  overflow:hidden;display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow-wrap:break-word}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-item{background:transparent !important}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-icon{background:#312a52}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-caption{color:#e8e1f8 !important}
+@media (max-width:520px){.rlj-home .gallery .gallery-caption{font-size:.72rem !important}}
