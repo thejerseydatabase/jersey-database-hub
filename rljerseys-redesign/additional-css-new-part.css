@@ -290,13 +290,13 @@ html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:link,
 html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:visited{color:#c9a8ff !important}
 html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:hover{color:#2ee6c5 !important}
 
-/* Club lists: any paragraph with 4+ links becomes a row of chips; the "|" separators are made invisible */
-.entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a),.entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) span{color:transparent !important}
-.entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a){line-height:2.6}
-body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a,body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:link,body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:visited{display:inline-block;font:500 15px/1.2 'Barlow',Arial,sans-serif !important;padding:8px 14px;margin:0 3px;background:#ece8f6;border:1px solid #d9d0ee;border-radius:999px;text-decoration:none !important;color:#2a1257 !important;transition:background .15s,transform .15s}
-body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important;transform:translateY(-2px)}
-html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a,html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:link,html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:visited{background:#2e2752;border-color:#3f3569;color:#e8e1f8 !important}
-html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content :is(p,div,span,td,li):has(> a ~ a ~ a ~ a) a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important}
+/* Club lists: every link typed with the blue colour becomes a chip; the "|" separators are made invisible */
+.entry-content p:has(a[style*="0000ff" i]),.entry-content p:has(a[style*="0000ff" i]) span,.entry-content div:has(> a[style*="0000ff" i]),.entry-content div:has(> a[style*="0000ff" i]) span{color:transparent !important}
+.entry-content p:has(a[style*="0000ff" i]){line-height:2.6}
+body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i],body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:link,body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:visited{display:inline-block;font:500 15px/1.2 'Barlow',Arial,sans-serif !important;padding:8px 14px;margin:0 3px;background:#ece8f6;border:1px solid #d9d0ee;border-radius:999px;text-decoration:none !important;color:#2a1257 !important;transition:background .15s,transform .15s}
+body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important;transform:translateY(-2px)}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i],html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:link,html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:visited{background:#2e2752;border-color:#3f3569;color:#e8e1f8 !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a[style*="0000ff" i]:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important}
 
 /* Group headings such as "Australian ARL/NRL Clubs" (bold + underlined text, however it was typed) */
 .entry-content [style*="underline"],.entry-content p > u,.entry-content p > strong > u,.entry-content p > u > strong{display:inline-block;font:700 1.55rem/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif !important;text-transform:uppercase;letter-spacing:.05em;text-decoration:none !important;color:#2a1257 !important;border-bottom:3px solid #2ee6c5;padding-bottom:4px;margin:10px 0 4px}
