@@ -1,0 +1,350 @@
+/* ================================================================
+   RL JERSEYS - NEW DESIGN (one file)
+   Paste this block directly BELOW your old CSS (the section that ends with
+   the "BANNER & TITLE CENTERING FIX" rule). Do not paste anything else twice.
+   Order: 1 New homepage  2 Whole-site theme  3 Menu
+   ================================================================ */
+
+/* ===== 1. NEW HOMEPAGE (only affects pages wrapped in .rlj-home) ===== */
+body:has(.rlj-home) .site{max-width:1160px}
+body:has(.rlj-home) .site-content,body:has(.rlj-home) .site-content .entry-content{float:none;width:100%;margin:0}
+body:has(.rlj-home) #secondary,body:has(.rlj-home) .widget-area{display:none}
+body:has(.rlj-home) .entry-header,body:has(.rlj-home) .entry-meta,body:has(.rlj-home) .comments-area{display:none}
+body:has(.rlj-home) .site-content article{padding:0;border:0}
+.rlj-home{--card:#ffffff;--pitch:#2a1257;--pitch2:#7c14e6;--accent:#2ee6c5;--ink:#1b1033;--muted:#5d5575;--line:#ddd8ea;--bg:#f1eff7;
+  font-family:'Barlow',Helvetica,Arial,sans-serif;font-size:16px;line-height:1.5;color:var(--ink);text-align:left}
+.rlj-home *{box-sizing:border-box}
+.rlj-home a{text-decoration:none;color:inherit}
+.rlj-home a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.rlj-home br,.rlj-home p:empty{display:none}
+.rlj-home .rlj-hero{background:var(--pitch);color:#f3f7f4;padding:36px 32px;margin:0 0 0;display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;
+  background-image:repeating-linear-gradient(90deg,transparent 0 79px,rgba(255,255,255,.045) 79px 80px)}
+.rlj-home .rlj-hero-title{font:800 clamp(2.4rem,6vw,4.2rem)/.94 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;margin:0}
+.rlj-home .rlj-hero-title span{color:var(--accent)}
+.rlj-home .rlj-hero-sub{margin:12px 0 0;color:#cfc4e8;font-size:1.05rem}
+.rlj-home .rlj-hero-count{border-top:3px solid var(--accent);padding-top:8px;display:flex;align-items:baseline;gap:10px}
+.rlj-home .rlj-hero-count b{font:800 clamp(2.8rem,7vw,4.6rem)/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif}
+.rlj-home .rlj-hero-count small{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:#cfc4e8;line-height:1.3}
+.rlj-home .rlj-redesign-notice{background:var(--accent);color:#08241f;font-size:.92rem;font-weight:500;padding:9px 32px;margin:0 0 8px}
+.rlj-home .rlj-section-title{font:700 1.7rem/1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;
+  margin:40px 0 16px;display:flex;align-items:center;gap:14px}
+.rlj-home .rlj-section-title::after{content:"";flex:1;height:2px;background:var(--line)}
+.rlj-home .rlj-divider{display:none}
+.rlj-home .rlj-comp-year-label{display:inline-block;background:var(--ink);color:#fff;font:800 1.2rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;
+  letter-spacing:.06em;padding:2px 12px;margin:18px 0 10px}
+.rlj-home .rlj-comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:10px}
+.rlj-home .rlj-comp-grid a{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:14px 8px 12px;display:flex;flex-direction:column;align-items:center;gap:8px;
+  font:700 1rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.05em;text-transform:uppercase;text-align:center;
+  transition:transform .15s,border-color .15s,box-shadow .15s}
+.rlj-home .rlj-comp-grid a:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.rlj-home .rlj-comp-grid img{height:56px;width:auto;max-width:80%;object-fit:contain;margin:0;border:0;box-shadow:none}
+.rlj-home .rlj-more-link{margin-top:14px}
+.rlj-home .rlj-more-link a{font-weight:600;border-bottom:2px solid var(--accent)}
+.rlj-home .rlj-browse-teams{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rlj-home .rlj-browse-teams a{display:block;background:var(--pitch);color:#f3f7f4;padding:22px;border-radius:6px;
+  font:700 1.35rem/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;transition:background .15s}
+.rlj-home .rlj-browse-teams a::after{content:" \2192";color:var(--accent)}
+.rlj-home .rlj-browse-teams a:hover{background:var(--pitch2)}
+.rlj-home .rlj-stats-grid{display:flex;flex-wrap:wrap;gap:10px}
+.rlj-home .rlj-stats-grid a{flex:1 1 130px;min-width:0;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:4px;
+  padding:12px 14px;font-weight:600;display:flex;justify-content:space-between;gap:8px;transition:background .15s,color .15s}
+.rlj-home .rlj-stats-grid a::after{content:"Sheet";color:var(--muted);font-weight:500;font-size:.8rem;align-self:center}
+.rlj-home .rlj-stats-grid a:hover{background:var(--ink);color:#fff}
+.rlj-home .rlj-stats-grid a:hover::after{color:#cfc4e8}
+.rlj-home .rlj-stats-grid a.rlj-soon{opacity:.55;pointer-events:none}
+.rlj-home .rlj-stats-grid a.rlj-soon::after{content:"Soon"}
+.rlj-home .rlj-comp-block{--c:#444b50;background:var(--card);border:1px solid var(--line);border-radius:6px;margin:0 0 14px;overflow:hidden}
+.rlj-home .rlj-comp-block--nrl{--c:#0b5d3b}
+.rlj-home .rlj-comp-block--worldcup{--c:#b8860b}
+.rlj-home .rlj-comp-block--esl{--c:#d4262c}
+.rlj-home .rlj-comp-block--nrlw{--c:#7a2a8a}
+.rlj-home .rlj-comp-block--qld{--c:#7b1c2e}
+.rlj-home .rlj-comp-block--nsw{--c:#1c5fa8}
+.rlj-home .rlj-comp-block--intl{--c:#25324a}
+.rlj-home .rlj-comp-block--championship{--c:#1f6f78}
+.rlj-home .rlj-comp-block--refs{--c:#444b50}
+.rlj-home .rlj-comp-block--amateur{--c:#8a5a1c}
+.rlj-home .rlj-comp-label{background:var(--c);color:#fff;padding:10px 16px;font:700 1.15rem 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.08em}
+.rlj-home .gallery{display:grid !important;grid-template-columns:repeat(9,1fr);gap:8px;margin:0 !important;padding:12px}
+.rlj-home .gallery .gallery-item{float:none !important;width:auto !important;margin:0 !important;padding:0;min-width:0;background:var(--bg);border-radius:4px;
+  aspect-ratio:1;display:grid;place-items:center;transition:transform .15s}
+.rlj-home .gallery .gallery-item:hover{transform:scale(1.12);position:relative;z-index:2}
+.rlj-home .gallery .gallery-icon{margin:0;width:100%;height:100%;display:grid;place-items:center}
+.rlj-home .gallery .gallery-icon a{display:grid;place-items:center;width:100%;height:100%}
+.rlj-home .gallery .gallery-icon img{width:90%;height:90%;object-fit:contain;border:0 !important;margin:0;box-shadow:none}
+.rlj-home .gallery .gallery-caption{display:none}
+.rlj-home .gallery::before,.rlj-home .gallery::after{display:none}
+
+
+
+@media (max-width:760px){
+.rlj-home .gallery{grid-template-columns:repeat(6,1fr)}
+.rlj-home .rlj-hero,.rlj-home .rlj-redesign-notice{padding-left:18px;padding-right:18px}
+
+}
+
+@media (max-width:520px){
+.rlj-home .gallery{grid-template-columns:repeat(4,1fr)}
+.rlj-home .rlj-browse-teams{grid-template-columns:1fr}
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(2,1fr)}
+
+}
+
+@media (prefers-reduced-motion:reduce){
+.rlj-home *{transition:none !important}
+}
+
+
+/* ---- Overrides: beat the old homepage CSS still in Additional CSS ---- */
+.rlj-home .rlj-hero-count small br{display:inline}
+.rlj-home .rlj-section-title{background:none !important;color:var(--ink) !important;padding:0 !important;border:0 !important;border-radius:0 !important;text-align:left !important;box-shadow:none !important;text-shadow:none !important;margin:36px 0 14px !important}
+.rlj-home .rlj-section-title::after{background:var(--pitch2) !important;opacity:.25}
+.rlj-home .rlj-comp-year-label{display:inline-block !important;width:auto !important;text-align:left !important;background:var(--pitch) !important;color:#fff !important;border-radius:3px;padding:3px 14px !important;margin:16px 0 10px !important}
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(104px,1fr)) !important;gap:8px !important}
+.rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{width:auto !important;min-width:0 !important;height:auto !important;margin:0 !important;float:none !important;
+  padding:12px 6px 10px !important;color:var(--ink) !important;opacity:1 !important;filter:none !important;background:var(--card) !important;font-size:.9rem !important;line-height:1.1 !important;gap:6px !important}
+.rlj-home .rlj-comp-grid a:hover{border-color:var(--pitch2) !important}
+.rlj-home .rlj-comp-grid img{opacity:1 !important;filter:none !important;height:48px !important;width:auto !important;max-width:80% !important}
+.rlj-home .rlj-more-link{text-align:left !important}
+.rlj-home .rlj-more-link a,.rlj-home .rlj-more-link a:link,.rlj-home .rlj-more-link a:visited{background:none !important;color:var(--ink) !important;border:0 !important;border-bottom:2px solid var(--accent) !important;
+  border-radius:0 !important;box-shadow:none !important;padding:0 0 2px !important;display:inline-block;font-weight:600}
+.rlj-home .rlj-browse-teams a,.rlj-home .rlj-browse-teams a:link,.rlj-home .rlj-browse-teams a:visited{color:#fff !important;background:var(--pitch) !important}
+.rlj-home .rlj-browse-teams a:hover{background:var(--pitch2) !important}
+.rlj-home .rlj-stats-grid a,.rlj-home .rlj-stats-grid a:link,.rlj-home .rlj-stats-grid a:visited{color:var(--ink) !important;background:var(--card) !important}
+.rlj-home .rlj-stats-grid a:hover{background:var(--pitch) !important;color:#fff !important}
+.rlj-home .rlj-comp-label{text-align:left !important;padding:10px 16px !important}
+
+/* ---- Text-only competition tiles (no logos) ---- */
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr)) !important}
+.rlj-home .rlj-comp-grid img{display:none !important}
+.rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{flex-direction:row !important;justify-content:space-between !important;align-items:center !important;text-align:left !important;
+  padding:13px 14px !important;border-left:5px solid var(--accent) !important;border-radius:4px !important;font-size:1.05rem !important}
+.rlj-home .rlj-comp-grid a::after{content:"\2192";color:var(--pitch2);font-weight:700}
+.rlj-home .rlj-comp-grid a:hover{background:var(--pitch) !important;color:#fff !important;transform:none}
+.rlj-home .rlj-comp-grid a:hover::after{color:var(--accent)}
+
+/* ---- WP Dark Mode plugin (adds .wp-dark-mode-active to <html>) ---- */
+html.wp-dark-mode-active .rlj-home{--card:#241f3d;--ink:#f1edfb;--muted:#b3a9d0;--line:#3f3569;--bg:#1a1630;--pitch2:#a46bff}
+html.wp-dark-mode-active .rlj-home .rlj-section-title,
+html.wp-dark-mode-active .rlj-home .rlj-more-link a,
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a{color:#f1edfb !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a,
+html.wp-dark-mode-active .rlj-home .rlj-comp-block{background:#241f3d !important;border-color:#3f3569 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a:hover,
+html.wp-dark-mode-active .rlj-home .rlj-stats-grid a:hover{background:#3a2a73 !important;color:#fff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-year-label{background:var(--accent) !important;color:#08241f !important}
+html.wp-dark-mode-active .rlj-home .rlj-browse-teams a{background:#3a2a73 !important}
+html.wp-dark-mode-active .rlj-home .rlj-browse-teams a:hover{background:#5b3bb5 !important}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-item{background:#312a52 !important}
+html.wp-dark-mode-active .rlj-home .rlj-section-title::after{background:#a46bff !important;opacity:.4}
+
+/* ---- Bigger, clearer text ---- */
+.rlj-home{font-size:17px}
+.rlj-home .rlj-hero-sub{font-size:1.25rem;color:#e6defa}
+.rlj-home .rlj-hero-count small{font-size:.95rem;color:#e6defa}
+.rlj-home .rlj-redesign-notice{font-size:1rem;font-weight:600}
+.rlj-home .rlj-section-title{font-size:2.1rem !important}
+.rlj-home .rlj-comp-year-label{font-size:1.4rem !important}
+.rlj-home .rlj-comp-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr)) !important}
+.rlj-home .rlj-comp-grid a,.rlj-home .rlj-comp-grid a:link,.rlj-home .rlj-comp-grid a:visited{font-size:1.35rem !important;font-weight:700 !important;letter-spacing:.04em !important;padding:15px 16px !important}
+.rlj-home .rlj-more-link a{font-size:1.15rem}
+.rlj-home .rlj-browse-teams a{font-size:1.6rem}
+.rlj-home .rlj-stats-grid a{font-size:1.2rem;padding:15px 16px}
+.rlj-home .rlj-stats-grid a::after{font-size:.9rem}
+.rlj-home .rlj-comp-label{font-size:1.4rem !important}
+html.wp-dark-mode-active .rlj-home .rlj-hero{background-color:#3a1f7a}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a,html.wp-dark-mode-active .rlj-home .rlj-stats-grid a{color:#fff !important;background:#2e2752 !important}
+html.wp-dark-mode-active .rlj-home .rlj-section-title{color:#fff !important}
+
+/* ---- Vertical seasons layout, team buttons on the right ---- */
+.rlj-home .rlj-browse-layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:0 36px;align-items:start}
+.rlj-home .rlj-browse-main,.rlj-home .rlj-browse-side{min-width:0}
+.rlj-home .rlj-seasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:18px}
+.rlj-home .rlj-season-col{min-width:0}
+.rlj-home .rlj-season-col .rlj-comp-year-label{display:block !important;text-align:center !important;margin:0 0 8px !important;font-size:1.5rem !important}
+.rlj-home .rlj-season-col .rlj-comp-grid{grid-template-columns:1fr !important}
+.rlj-home .rlj-season-col .rlj-comp-grid a,.rlj-home .rlj-season-col .rlj-comp-grid a:link,.rlj-home .rlj-season-col .rlj-comp-grid a:visited{font-size:1.2rem !important;padding:13px 14px !important}
+.rlj-home .rlj-browse-side .rlj-browse-teams{grid-template-columns:1fr}
+.rlj-home .rlj-browse-side .rlj-browse-teams a{font-size:1.45rem;padding:24px 20px}
+.rlj-home .rlj-comp-grid a.rlj-soon,.rlj-home .rlj-comp-grid a.rlj-soon:link,.rlj-home .rlj-comp-grid a.rlj-soon:visited{opacity:.5 !important;pointer-events:none;border-left-color:#b9b1cf !important}
+.rlj-home .rlj-comp-grid a.rlj-soon::after{content:"Soon";font-size:.8rem;font-weight:500;color:var(--muted)}
+@media (max-width:900px){.rlj-home .rlj-browse-layout{grid-template-columns:1fr}}
+
+/* ---- Dark mode: easier-to-read text on the jersey pages ---- */
+html.wp-dark-mode-active .entry-content a,html.wp-dark-mode-active .entry-content a:link,html.wp-dark-mode-active .entry-content a:visited{color:#c9a8ff !important}
+html.wp-dark-mode-active .entry-content a:hover{color:#2ee6c5 !important}
+html.wp-dark-mode-active .gallery-caption,html.wp-dark-mode-active .wp-caption-text,html.wp-dark-mode-active .wp-caption-text em,html.wp-dark-mode-active .gallery-caption em,html.wp-dark-mode-active figcaption{color:#e0d8f5 !important}
+html.wp-dark-mode-active .entry-content,html.wp-dark-mode-active .entry-content p,html.wp-dark-mode-active .entry-content li,html.wp-dark-mode-active .entry-content strong{color:#f1edfb}
+html.wp-dark-mode-active .entry-content em,html.wp-dark-mode-active .entry-content i{color:#e0d8f5}
+
+/* ---- Note replacing the stats spreadsheets section ---- */
+.rlj-home .rlj-stats-note{margin:36px 0 0;padding:16px 20px;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:4px;font-size:1.1rem;line-height:1.5;color:var(--ink)}
+html.wp-dark-mode-active .rlj-home .rlj-stats-note{background:#241f3d !important;border-color:#3f3569 !important;color:#f1edfb !important}
+
+/* ---- Dark mode: one consistent colour for every Latest Additions header ---- */
+html.wp-dark-mode-active .rlj-home .rlj-comp-block{border:1px solid #3f3569 !important;border-left:1px solid #3f3569 !important;background:#241f3d !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block .rlj-comp-label{background:#3a2a73 !important;color:#fff !important;border:0 !important;border-bottom:2px solid #2ee6c5 !important}
+
+/* ---- Header banner image: stretch to the same width as the purple hero ---- */
+body:has(.rlj-home) .header-image,body:has(.rlj-home) .site-header img{display:block;width:100% !important;max-width:100% !important;height:auto !important;margin:0 !important;border-radius:4px 4px 0 0}
+body:has(.rlj-home) .rlj-hero{margin-top:0}
+
+/* ---- Dark mode: Latest Additions headers with a bright competition colour edge ---- */
+html.wp-dark-mode-active .rlj-home .rlj-comp-block .rlj-comp-label{background:#4b30a0 !important;font-size:1.6rem !important;padding:12px 18px !important;border-left:12px solid #2ee6c5 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nrl .rlj-comp-label{border-left-color:#35d27f !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--worldcup .rlj-comp-label{border-left-color:#ffc83a !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--esl .rlj-comp-label{border-left-color:#ff5c66 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nrlw .rlj-comp-label{border-left-color:#d684ff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--qld .rlj-comp-label{border-left-color:#ff7a9c !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--nsw .rlj-comp-label{border-left-color:#4eaaff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--intl .rlj-comp-label{border-left-color:#97aaff !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--championship .rlj-comp-label{border-left-color:#2ee6c5 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--refs .rlj-comp-label{border-left-color:#c4ccd4 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-block--amateur .rlj-comp-label{border-left-color:#ffae4d !important}
+
+/* ---- Stats note link: solid colour; darker SOON labels ---- */
+.rlj-home .rlj-stats-note a,.rlj-home .rlj-stats-note a:link,.rlj-home .rlj-stats-note a:visited,.rlj-home .rlj-stats-note a:hover{color:#5a189a !important;opacity:1 !important;font-weight:700;text-decoration:underline;text-decoration-color:#2ee6c5;text-decoration-thickness:2px;text-underline-offset:3px}
+html.wp-dark-mode-active .rlj-home .rlj-stats-note a,html.wp-dark-mode-active .rlj-home .rlj-stats-note a:link,html.wp-dark-mode-active .rlj-home .rlj-stats-note a:visited{color:#c9a8ff !important}
+.rlj-home .rlj-comp-grid a.rlj-soon::after{color:#3d3560 !important;font-weight:700;font-size:.85rem}
+.rlj-home .rlj-comp-grid a.rlj-soon,.rlj-home .rlj-comp-grid a.rlj-soon:link,.rlj-home .rlj-comp-grid a.rlj-soon:visited{opacity:.7 !important;color:#3d3560 !important}
+html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon::after,html.wp-dark-mode-active .rlj-home .rlj-comp-grid a.rlj-soon{color:#d8d0f0 !important}
+
+/* ---- Smaller purple hero ---- */
+.rlj-home .rlj-hero{padding:20px 28px;gap:12px 32px;align-items:center}
+.rlj-home .rlj-hero-title{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1}
+.rlj-home .rlj-hero-sub{font-size:1.05rem;margin-top:6px}
+.rlj-home .rlj-hero-count{padding-top:6px}
+.rlj-home .rlj-hero-count b{font-size:clamp(2.2rem,5vw,3.2rem)}
+.rlj-home .rlj-hero-count small{font-size:.8rem}
+.rlj-home .rlj-redesign-notice{padding:7px 28px;font-size:.95rem}
+@media (max-width:760px){.rlj-home .rlj-hero{padding:18px}}
+
+/* ---- Jersey names back under the pictures (Latest Additions) ---- */
+.rlj-home .gallery{align-items:start}
+.rlj-home .gallery .gallery-item{aspect-ratio:auto !important;display:flex !important;flex-direction:column;background:transparent !important;place-items:initial}
+.rlj-home .gallery .gallery-icon{aspect-ratio:1;width:100%;height:auto;background:var(--bg);border-radius:4px}
+.rlj-home .gallery .gallery-caption{display:block !important;margin:6px 0 0 !important;padding:0 2px;text-align:center;font-size:.8rem !important;line-height:1.2;font-weight:500;font-style:normal;color:var(--ink) !important;
+  overflow:hidden;display:-webkit-box !important;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow-wrap:break-word}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-item{background:transparent !important}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-icon{background:#312a52}
+html.wp-dark-mode-active .rlj-home .gallery .gallery-caption{color:#e8e1f8 !important}
+@media (max-width:520px){.rlj-home .gallery .gallery-caption{font-size:.72rem !important}}
+
+
+/* ===== 2. WHOLE-SITE THEME ===== */
+
+body{background:#f1eff7}
+a{color:#5a189a}
+a:hover,a:focus{color:#0d8f7a}
+.entry-content a{color:#5a189a}
+
+/* ---- Header ---- */
+.site-title{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.site-title a{color:#2a1257}
+.site-description{color:#5d5575}
+.entry-title,.entry-title a{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:#2a1257}
+.entry-header .entry-title{border-bottom:3px solid #2ee6c5;display:inline-block;padding-bottom:4px}
+
+/* ---- Tabs on jersey pages (Tabs Responsive plugin, plus other common tab plugins) ---- */
+.ui-tabs .ui-tabs-nav li.ui-tabs-active a,.tabs li.active a,.nav-tabs>li.active>a,.responsive-tabs__list__item--active,.tab-title.active,.tabs-nav li.active,.tabs-nav .active a,.resp-tab-active{background:#3b1580 !important;color:#fff !important;border-color:#3b1580 !important}
+.ui-tabs .ui-tabs-nav li a,.tabs li a,.nav-tabs>li>a,.tabs-nav li a,.resp-tab-item{color:#2a1257}
+
+
+
+/* ---- Tabs Responsive plugin (the :not(#x) trick lets these beat the plugin's own per-tab-set ID rules) ---- */
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#ece8f6 !important;background-color:#ece8f6 !important;color:#2a1257 !important;border:1px solid #cfc4e8 !important;
+  font-family:'Barlow',Arial,sans-serif !important;font-size:15px !important;font-weight:600 !important;letter-spacing:.03em}
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a:hover{background:#2ee6c5 !important;background-color:#2ee6c5 !important;color:#08241f !important;border-color:#2ee6c5 !important}
+[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a,[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:hover,[id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:focus{background:#3b1580 !important;background-color:#3b1580 !important;color:#fff !important;border:1px solid #3b1580 !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a{background:#241f3d !important;background-color:#241f3d !important;color:#f1edfb !important;border-color:#3f3569 !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li > a:hover{background:#2ee6c5 !important;background-color:#2ee6c5 !important;color:#08241f !important}
+html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a,html.wp-dark-mode-active [id^="tab_container_"]:not(#x) .wpsm_nav-tabs > li.active > a:hover{background:#5b3bb5 !important;background-color:#5b3bb5 !important;color:#fff !important;border-color:#5b3bb5 !important}
+
+/* ---- Dark mode (WP Dark Mode plugin) ---- */
+html.wp-dark-mode-active a,html.wp-dark-mode-active .entry-content a{color:#b58cff}
+html.wp-dark-mode-active a:hover{color:#2ee6c5}
+html.wp-dark-mode-active .site-title a,html.wp-dark-mode-active .entry-title,html.wp-dark-mode-active .entry-title a{color:#f1edfb}
+html.wp-dark-mode-active .site-description{color:#b3a9d0}
+
+/* ---- Links inside the My Sticky Bar (see sticky-bar-text.html) ---- */
+a.rlj-bar-link,a.rlj-bar-link:link,a.rlj-bar-link:visited{color:#fff !important;display:inline-block;padding:6px 14px;text-decoration:none !important;border-radius:3px}
+a.rlj-bar-link:hover{background:#2ee6c5;color:#08241f !important}
+
+/* ---- Jersey captions: stop words breaking mid-word on phones ("Alternat/e") ---- */
+.site-content article,.entry-content{-webkit-hyphens:manual;-moz-hyphens:manual;hyphens:manual;word-wrap:normal;overflow-wrap:normal}
+.gallery-caption,.wp-caption-text{font-size:13px;line-height:1.3;-webkit-hyphens:none;hyphens:none;word-break:normal;overflow-wrap:break-word}
+@media (max-width:599px){.gallery-caption,.wp-caption-text{font-size:12px}}
+
+/* =====================================================================
+   Content pages (club lists, team pages). Not applied to the new homepage.
+   ===================================================================== */
+body:not(:has(.rlj-home)) .entry-content a,
+body:not(:has(.rlj-home)) .entry-content a:link,
+body:not(:has(.rlj-home)) .entry-content a:visited{color:#5a189a !important;text-decoration-color:#2ee6c5;text-decoration-thickness:2px;text-underline-offset:3px}
+body:not(:has(.rlj-home)) .entry-content a span{color:inherit !important}
+body:not(:has(.rlj-home)) .entry-content a:hover{color:#0d8f7a !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:link,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:visited{color:#c9a8ff !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content a:hover{color:#2ee6c5 !important}
+
+/* Club lists: a paragraph with 4+ links becomes a row of chips; the "|" separators disappear */
+.entry-content p:has(> a ~ a ~ a ~ a){font-size:0;line-height:0;display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px 0 22px}
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a,
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:link,
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:visited{font:500 15px/1.2 'Barlow',Arial,sans-serif;display:inline-block;padding:8px 14px;background:#ece8f6;border:1px solid #d9d0ee;border-radius:999px;text-decoration:none !important;color:#2a1257 !important;transition:background .15s,transform .15s}
+body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important;transform:translateY(-2px)}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:link,
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:visited{background:#2e2752;border-color:#3f3569;color:#e8e1f8 !important}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content p:has(> a ~ a ~ a ~ a) > a:hover{background:#2ee6c5;border-color:#2ee6c5;color:#08241f !important}
+
+/* Group headings such as "Australian ARL/NRL Clubs" (bold + underlined text) */
+.entry-content p > strong > u,.entry-content p > u > strong{display:inline-block;font:700 1.55rem/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.05em;text-decoration:none;color:#2a1257;border-bottom:3px solid #2ee6c5;padding-bottom:4px;margin-top:8px}
+html.wp-dark-mode-active .entry-content p > strong > u,html.wp-dark-mode-active .entry-content p > u > strong{color:#f1edfb}
+.entry-content hr{border:0;height:2px;background:linear-gradient(90deg,transparent,#cfc4e8,transparent);margin:28px 0}
+html.wp-dark-mode-active .entry-content hr{background:linear-gradient(90deg,transparent,#3f3569,transparent)}
+
+/* Team pages: tab panel text, year lines, jersey frames */
+.wpsm_tab-content{font-family:'Barlow',Arial,sans-serif;font-size:16px;color:#1b1033;padding:6px 10px}
+.wpsm_tab-content p{font-size:17px;margin:20px 0 8px}
+.wpsm_tab-content p strong{color:#3b1580;font:700 1.3em/1.1 'Barlow Condensed','Arial Narrow',Arial,sans-serif;letter-spacing:.04em}
+.wpsm_tab-content h2,.wpsm_tab-content h3,.wpsm_tab-content h4{font-family:'Barlow Condensed','Arial Narrow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.04em;color:#3b1580}
+body:not(:has(.rlj-home)) .entry-content .gallery-icon img{border:1px solid #d9d0ee !important;border-radius:6px;box-shadow:0 2px 6px rgba(42,18,87,.12) !important;transition:transform .15s}
+body:not(:has(.rlj-home)) .entry-content .gallery-icon a:hover img{transform:translateY(-3px)}
+html.wp-dark-mode-active .wpsm_tab-content{color:#f1edfb}
+html.wp-dark-mode-active .wpsm_tab-content p strong,html.wp-dark-mode-active .wpsm_tab-content h2,html.wp-dark-mode-active .wpsm_tab-content h3,html.wp-dark-mode-active .wpsm_tab-content h4{color:#2ee6c5}
+html.wp-dark-mode-active body:not(:has(.rlj-home)) .entry-content .gallery-icon img{border-color:#3f3569 !important}
+
+
+/* ===== 3. MENU (purple, sticky on desktop, tap-to-open on phones) ===== */
+
+/* shared look */
+#site-navigation{background:#3b1580;text-align:left;margin:0 0 20px}
+#site-navigation li a,#site-navigation li a:link,#site-navigation li a:visited{color:#fff;font:600 14px/1.2 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;text-decoration:none;display:block}
+#site-navigation li:hover>a,#site-navigation li a:focus{background:#2ee6c5;color:#08241f}
+#site-navigation .current-menu-item>a,#site-navigation .current-menu-ancestor>a,#site-navigation .current_page_item>a{background:#2ee6c5;color:#08241f}
+#site-navigation ul ul{background:#2a1257;border:0;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+#site-navigation .menu-toggle{background:#3b1580;color:#fff;border:0;border-radius:0;padding:14px 16px;text-shadow:none;box-shadow:none;font:600 14px 'Barlow',Arial,sans-serif;text-transform:uppercase;letter-spacing:.06em;width:100%;text-align:left}
+html.wp-dark-mode-active #site-navigation,html.wp-dark-mode-active #site-navigation .menu-toggle{background:#24104d}
+
+/* desktop and tablet only: sticky, one row */
+@media (min-width:600px){
+  #masthead{display:contents}
+  .site-header hgroup{padding:24px 0 10px}
+  #site-navigation{position:sticky;top:0;z-index:1000}
+  .admin-bar #site-navigation{top:32px}
+  #site-navigation ul.nav-menu,#site-navigation div.nav-menu>ul{border:0;display:flex !important;flex-wrap:wrap;width:100%;margin:0;padding:0 8px}
+  #site-navigation li{margin:0}
+  #site-navigation li a{padding:14px 16px}
+}
+
+/* phones: not sticky, tap MENU to open */
+@media (max-width:599px){
+  #site-navigation{position:static}
+  #site-navigation li{margin:0;border-top:1px solid rgba(255,255,255,.15)}
+  #site-navigation li a{padding:14px 18px}
+}
+
